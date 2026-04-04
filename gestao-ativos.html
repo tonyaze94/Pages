@@ -6,7 +6,7 @@
 <title>Gestão de Ativos</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-:root{--bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#242424;--bg4:#2e2e2e;--border:#333;--border2:#444;--text:#f0f0f0;--text2:#999;--text3:#666;--green:#4ade80;--green-bg:rgba(74,222,128,0.1);--red:#f87171;--red-bg:rgba(248,113,113,0.1);--blue:#60a5fa;--blue-bg:rgba(96,165,250,0.1);--amber:#fbbf24;--radius:12px;--radius-sm:8px;}
+:root{--bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#242424;--bg4:#2e2e2e;--border:#333;--border2:#444;--text:#f0f0f0;--text2:#999;--text3:#666;--green:#4ade80;--green-bg:rgba(74,222,128,0.1);--red:#f87171;--red-bg:rgba(248,113,113,0.1);--blue:#60a5fa;--blue-bg:rgba(96,165,250,0.1);--amber:#fbbf24;--amber-bg:rgba(251,191,36,0.1);--purple:#a78bfa;--purple-bg:rgba(167,139,250,0.1);--radius:12px;--radius-sm:8px;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:80px;}
 
@@ -33,26 +33,29 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 .screen{display:none;padding:1rem;}
 .screen.active{display:block;}
-
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;}
 .card-sm{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.5rem;}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem;}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem;}
-.stat-label{font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;}
-.stat-val{font-size:20px;font-weight:600;font-family:'DM Mono',monospace;}
-.stat-val.green{color:var(--green);}.stat-val.red{color:var(--red);}.stat-val.blue{color:var(--blue);}.stat-val.amber{color:var(--amber);}
+
+/* STATS GRID — 4 blocos */
+.stats-grid4{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;}
+.stat-label{font-size:10px;color:var(--text2);margin-bottom:3px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;}
+.stat-val{font-size:18px;font-weight:600;font-family:'DM Mono',monospace;}
+.stat-val.green{color:var(--green);}.stat-val.red{color:var(--red);}.stat-val.blue{color:var(--blue);}.stat-val.amber{color:var(--amber);}.stat-val.purple{color:var(--purple);}
+
 .section-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:1rem 0 .5rem;}
 
+/* GRUPO CARD */
 .grupo-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;cursor:pointer;}
 .grupo-card:active{border-color:var(--green);}
 .grupo-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
 .grupo-nome{font-size:16px;font-weight:600;}
-.grupo-badge{font-size:11px;font-weight:500;padding:3px 8px;border-radius:20px;background:var(--bg3);color:var(--text2);}
-.grupo-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
-.grupo-stat{background:var(--bg3);border-radius:var(--radius-sm);padding:8px;text-align:center;}
+.grupo-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.grupo-stat{background:var(--bg3);border-radius:var(--radius-sm);padding:8px;}
 .grupo-stat-val{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;}
 .grupo-stat-label{font-size:10px;color:var(--text2);margin-top:1px;}
 
+/* ATIVO CARD */
 .ativo-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;cursor:pointer;}
 .ativo-card:active{border-color:var(--blue);}
 .ativo-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
@@ -60,11 +63,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ativo-estado{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
 .ativo-estado.em_carteira{background:var(--blue-bg);color:var(--blue);}
 .ativo-estado.vendido{background:var(--green-bg);color:var(--green);}
-.ativo-nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
-.ativo-num{background:var(--bg3);border-radius:var(--radius-sm);padding:8px;text-align:center;}
-.ativo-num-val{font-size:12px;font-weight:600;font-family:'DM Mono',monospace;}
-.ativo-num-label{font-size:10px;color:var(--text2);margin-top:1px;}
+.ativo-nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
+.ativo-num{background:var(--bg3);border-radius:var(--radius-sm);padding:7px;text-align:center;}
+.ativo-num-val{font-size:11px;font-weight:600;font-family:'DM Mono',monospace;}
+.ativo-num-label{font-size:9px;color:var(--text2);margin-top:1px;}
 
+/* MOV CARD */
 .mov-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.5rem;}
 .mov-top{display:flex;align-items:flex-start;justify-content:space-between;}
 .mov-left{flex:1;min-width:0;}
@@ -73,13 +77,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .mov-date{font-size:11px;color:var(--text3);margin-top:2px;}
 .mov-right{text-align:right;flex-shrink:0;margin-left:12px;}
 .mov-val-total{font-size:15px;font-weight:600;font-family:'DM Mono',monospace;}
-.mov-val-total.custo{color:var(--red);}.mov-val-total.receita{color:var(--green);}
+.mov-val-total.custo{color:var(--red);}.mov-val-total.receita{color:var(--green);}.mov-val-total.troca{color:var(--purple);}
 .mov-val-proprio{font-size:11px;color:var(--text2);margin-top:2px;font-family:'DM Mono',monospace;}
 .mov-actions{display:flex;gap:4px;margin-left:4px;flex-direction:column;}
 .mov-btn{background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;padding:0;line-height:1;}
 .mov-parceiros{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:4px;}
 .parceiro-pill{font-size:11px;padding:3px 8px;border-radius:20px;background:var(--bg4);color:var(--text2);font-family:'DM Mono',monospace;}
 
+/* FORMS */
 .form-group{margin-bottom:.85rem;}
 .form-label{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em;}
 .form-input,.form-select,.form-textarea{width:100%;padding:11px 13px;font-size:15px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color .15s;}
@@ -114,6 +119,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-green{background:var(--green);color:#000;}
 .btn-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red);}
 .btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border);}
+.btn-purple{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple);}
+.btn-load{background:var(--bg3);color:var(--text2);border:1px solid var(--border);padding:10px;font-size:13px;margin-top:.5rem;}
 
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;}
 .modal-overlay.open{display:flex;}
@@ -151,6 +158,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .legend-val{font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text);}
 .legend-pct{font-size:11px;color:var(--text3);margin-left:4px;}
 
+/* INFO BOX */
+.info-box{background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;color:var(--amber);margin-bottom:.85rem;line-height:1.5;}
+
 .empty{text-align:center;padding:3rem 1rem;}
 .empty-icon{font-size:40px;margin-bottom:.75rem;}
 .empty-text{color:var(--text2);font-size:14px;line-height:1.6;}
@@ -163,6 +173,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .resultado-badge.positivo{background:var(--green-bg);color:var(--green);}
 .resultado-badge.negativo{background:var(--red-bg);color:var(--red);}
 .resultado-badge.neutro{background:var(--bg3);color:var(--text2);}
+.divider-label{text-align:center;font-size:11px;color:var(--text3);padding:8px 0;border-top:1px solid var(--border);margin-top:.25rem;}
 </style>
 </head>
 <body>
@@ -184,18 +195,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <!-- APP -->
 <div id="app-screen" style="display:none;">
+
+  <!-- DASHBOARD -->
   <div id="screen-dashboard" class="screen active">
     <div class="header">
       <div class="header-left"><div><h1>Gestão de Ativos</h1></div></div>
       <div class="user-pill" onclick="doLogout()"><div class="user-dot"></div><span id="user-label">sair</span></div>
     </div>
     <div style="padding:1rem;">
-      <div id="dash-stats" class="stats-grid"></div>
-      <div class="section-title">Grupos</div>
+      <div class="section-title">Carteira atual</div>
+      <div id="dash-stats" class="stats-grid4"></div>
+      <div class="section-title">Por grupo</div>
       <div id="dash-grupos"></div>
     </div>
   </div>
 
+  <!-- ATIVOS DO GRUPO -->
   <div id="screen-ativos" class="screen">
     <div class="header">
       <div class="header-left">
@@ -205,12 +220,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <button class="icon-btn" onclick="openModalNovoAtivo()">+</button>
     </div>
     <div style="padding:1rem;">
-      <div id="ativos-stats" class="stats-grid"></div>
-      <div class="section-title">Ativos</div>
       <div id="ativos-lista"></div>
+      <div id="ativos-vendidos-lista"></div>
+      <button class="btn btn-load" id="btn-carregar-mais" onclick="carregarMaisVendidos()" style="display:none;">Carregar mais vendidos</button>
     </div>
   </div>
 
+  <!-- DETALHE DO ATIVO -->
   <div id="screen-ativo" class="screen">
     <div class="header">
       <div class="header-left">
@@ -230,11 +246,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
   </div>
 
+  <!-- ANÁLISE -->
   <div id="screen-analise" class="screen">
     <div class="header"><div class="header-left"><div><h1>Análise</h1></div></div></div>
     <div style="padding:1rem;" id="analise-content"></div>
   </div>
 
+  <!-- CONFIG -->
   <div id="screen-config" class="screen">
     <div class="header"><div class="header-left"><div><h1>Configurações</h1></div></div></div>
     <div style="padding:1rem;">
@@ -243,10 +261,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <button class="btn btn-secondary" onclick="openModalGrupo(null)" style="margin-bottom:1rem;">+ Novo grupo</button>
       <div class="section-title">Parceiros</div>
       <div id="config-parceiros"></div>
-      <button class="btn btn-secondary" onclick="openModalNovoParceiro()" style="margin-bottom:1rem;">+ Novo parceiro</button>
+      <button class="btn btn-secondary" onclick="openModalParceiro(null)" style="margin-bottom:1rem;">+ Novo parceiro</button>
       <div class="section-title">Categorias</div>
       <div id="config-categorias"></div>
-      <button class="btn btn-secondary" onclick="openModalNovaCategoria()">+ Nova categoria</button>
+      <button class="btn btn-secondary" onclick="openModalCategoria(null)">+ Nova categoria</button>
     </div>
   </div>
 
@@ -272,9 +290,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <div class="modal-overlay" id="modal-parceiro">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Novo Parceiro</div>
+    <div class="modal-title" id="modal-parceiro-title">Novo Parceiro</div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="parceiro-nome" placeholder="Ex: João, Maria"></div>
     <button class="btn btn-green" onclick="saveParceiro()">Guardar</button>
+    <button class="btn btn-red" id="btn-del-parceiro" style="margin-top:8px;display:none;" onclick="deleteParceiro()">Eliminar parceiro</button>
     <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('modal-parceiro')">Cancelar</button>
   </div>
 </div>
@@ -287,7 +306,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="form-group"><label class="form-label">Descrição (opcional)</label><input class="form-input" id="ativo-desc" placeholder="Matrícula, cor, etc."></div>
     <div class="form-group"><label class="form-label">Data de aquisição</label><input class="form-input" type="date" id="ativo-data"></div>
     <div class="form-group"><label class="form-label">Estado</label>
-      <select class="form-select" id="ativo-estado">
+      <select class="form-select" id="ativo-estado" onchange="toggleDataVenda()">
         <option value="em_carteira">Em carteira</option>
         <option value="vendido">Vendido</option>
       </select>
@@ -296,6 +315,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <label class="form-label">Data de venda</label>
       <input class="form-input" type="date" id="ativo-data-venda">
     </div>
+    <div class="form-group"><label class="form-label">Valor previsto de venda (€)</label><input class="form-input" type="number" id="ativo-previsto" placeholder="0.00" min="0" step="0.01" inputmode="decimal"></div>
+    <div class="form-group"><label class="form-label">Minha % do lucro previsto</label><input class="form-input" type="number" id="ativo-pct-lucro" placeholder="100" min="0" max="100" step="1" inputmode="decimal"></div>
     <button class="btn btn-green" onclick="saveAtivo()">Guardar</button>
     <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('modal-ativo')">Cancelar</button>
   </div>
@@ -316,19 +337,36 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
     <div class="form-group"><label class="form-label">Descrição (opcional)</label><textarea class="form-textarea" id="mov-desc"></textarea></div>
     <div class="divisao-box">
-      <div class="divisao-header">
-        <span class="divisao-title">Divisão do valor</span>
-        <button class="btn-sm" onclick="openAddParceiro()">+ Parceiro</button>
-      </div>
-      <div class="proprio-row">
-        <span class="proprio-label">A minha parte</span>
-        <input type="number" class="proprio-input" id="mov-proprio" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="updateDiff()">
-      </div>
+      <div class="divisao-header"><span class="divisao-title">Divisão do valor</span><button class="btn-sm" onclick="openAddParceiro()">+ Parceiro</button></div>
+      <div class="proprio-row"><span class="proprio-label">A minha parte</span><input type="number" class="proprio-input" id="mov-proprio" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="updateDiff()"></div>
       <div id="participacoes-lista"></div>
       <div class="diff-bar" id="diff-bar" style="display:none;"></div>
     </div>
     <button class="btn btn-green" onclick="saveMovimento()">Guardar</button>
     <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('modal-movimento')">Cancelar</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-troca">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Registar Troca</div>
+    <div class="info-box" id="troca-info-box"></div>
+    <div class="form-group"><label class="form-label">Grupo do novo ativo</label><select class="form-select" id="troca-grupo"></select></div>
+    <div class="form-group"><label class="form-label">Nome do novo ativo</label><input class="form-input" id="troca-nome" placeholder="Ex: Honda Civic 2022"></div>
+    <div class="form-group"><label class="form-label">Descrição (opcional)</label><input class="form-input" id="troca-desc" placeholder="Matrícula, cor, etc."></div>
+    <div class="form-group"><label class="form-label">Valor previsto de venda (€)</label><input class="form-input" type="number" id="troca-previsto" placeholder="0.00" step="0.01" inputmode="decimal"></div>
+    <div class="form-group"><label class="form-label">Minha % do lucro previsto</label><input class="form-input" type="number" id="troca-pct" placeholder="100" min="0" max="100"></div>
+    <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:.85rem;">
+      <div style="font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Ajuste de valores na troca (opcional)</div>
+      <div class="row2">
+        <div class="form-group"><label class="form-label">Recebi (€)</label><input class="form-input" type="number" id="troca-recebido" placeholder="0.00" step="0.01" inputmode="decimal" oninput="calcTrocaPreview()"></div>
+        <div class="form-group"><label class="form-label">Paguei (€)</label><input class="form-input" type="number" id="troca-pago" placeholder="0.00" step="0.01" inputmode="decimal" oninput="calcTrocaPreview()"></div>
+      </div>
+      <div id="troca-preview" style="font-size:12px;color:var(--text2);"></div>
+    </div>
+    <button class="btn btn-purple" onclick="confirmarTroca()">Confirmar troca</button>
+    <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('modal-troca')">Cancelar</button>
   </div>
 </div>
 
@@ -348,6 +386,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <button class="btn btn-secondary" style="margin-bottom:8px;" onclick="editAtivo()">Editar ativo</button>
     <button class="btn btn-secondary" style="margin-bottom:8px;" onclick="marcarVendido()">Marcar como vendido</button>
     <button class="btn btn-secondary" style="margin-bottom:8px;" onclick="marcarEmCarteira()">Marcar em carteira</button>
+    <button class="btn btn-purple" style="margin-bottom:8px;" onclick="iniciarTroca()">Registar troca</button>
     <button class="btn btn-red" style="margin-bottom:8px;" onclick="eliminarAtivo()">Eliminar ativo</button>
     <button class="btn btn-secondary" onclick="closeModal('modal-opcoes-ativo')">Cancelar</button>
   </div>
@@ -356,7 +395,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <div class="modal-overlay" id="modal-categoria">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Nova Categoria</div>
+    <div class="modal-title" id="modal-cat-title">Nova Categoria</div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="cat-nome" placeholder="Ex: Combustível"></div>
     <div class="form-group"><label class="form-label">Tipo</label>
       <div class="tipo-toggle">
@@ -365,6 +404,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
     <button class="btn btn-green" onclick="saveCategoria()">Guardar</button>
+    <button class="btn btn-red" id="btn-del-cat" style="margin-top:8px;display:none;" onclick="deleteCategoria()">Eliminar categoria</button>
     <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('modal-categoria')">Cancelar</button>
   </div>
 </div>
@@ -377,7 +417,8 @@ const SUPABASE_KEY='sb_publishable_pSZDG-UzctxRVU-wmY7mfA_ghtA9MaA';
 let authToken=null,grupos=[],categorias=[],parceiros=[],ativos=[],movimentos=[];
 let currentGrupoId=null,currentAtivoId=null,screenStack=['dashboard'];
 let movTipo='custo',catTipo='custo',movParceiros=[];
-let editingGrupoId=null,editingAtivoId=null,editingMovId=null;
+let editingGrupoId=null,editingAtivoId=null,editingMovId=null,editingParceiroId=null,editingCatId=null;
+let vendidosOffset=0;const VENDIDOS_PAGE=10;
 
 const api=async(path,method='GET',body=null)=>{
   const h={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(authToken||SUPABASE_KEY),'Content-Type':'application/json'};
@@ -394,20 +435,15 @@ const authApi=async(ep,body)=>{
 };
 
 function toast(msg,dur=2200){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
-
-// FORMAT — sempre 2 casas decimais
-function fmt(v){
-  if(v===null||v===undefined||isNaN(v))return'—';
-  return new Intl.NumberFormat('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v)+' €';
-}
+function fmt(v){if(v===null||v===undefined||isNaN(v))return'—';return new Intl.NumberFormat('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v)+' €';}
 function fmtDate(d){if(!d)return'';const[y,m,dd]=d.split('-');return dd+'/'+m+'/'+y;}
 function today(){return new Date().toISOString().slice(0,10);}
 function vpOf(m){return parseFloat(m.valor_proprio!=null?m.valor_proprio:m.valor);}
+function toggleDataVenda(){document.getElementById('ativo-data-venda-group').style.display=document.getElementById('ativo-estado').value==='vendido'?'block':'none';}
 
 // AUTH
 async function doLogin(){
-  const email=document.getElementById('login-email').value.trim();
-  const pass=document.getElementById('login-pass').value;
+  const email=document.getElementById('login-email').value.trim();const pass=document.getElementById('login-pass').value;
   const errEl=document.getElementById('login-error');const btn=document.getElementById('login-btn');
   errEl.style.display='none';
   if(!email||!pass){errEl.textContent='Preenche o email e a password.';errEl.style.display='block';return;}
@@ -417,19 +453,8 @@ async function doLogin(){
   if(data.access_token){authToken=data.access_token;localStorage.setItem('ga_token',authToken);localStorage.setItem('ga_email',email);showApp(email);}
   else{errEl.textContent='Email ou password incorretos.';errEl.style.display='block';}
 }
-function showApp(email){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app-screen').style.display='block';
-  document.getElementById('user-label').textContent=email.split('@')[0];
-  renderDashboard();
-}
-function doLogout(){
-  if(!confirm('Terminar sessão?'))return;
-  authToken=null;localStorage.removeItem('ga_token');localStorage.removeItem('ga_email');
-  document.getElementById('app-screen').style.display='none';
-  document.getElementById('login-screen').style.display='block';
-  document.getElementById('login-pass').value='';
-}
+function showApp(email){document.getElementById('login-screen').style.display='none';document.getElementById('app-screen').style.display='block';document.getElementById('user-label').textContent=email.split('@')[0];renderDashboard();}
+function doLogout(){if(!confirm('Terminar sessão?'))return;authToken=null;localStorage.removeItem('ga_token');localStorage.removeItem('ga_email');document.getElementById('app-screen').style.display='none';document.getElementById('login-screen').style.display='block';document.getElementById('login-pass').value='';}
 function tryAutoLogin(){const t=localStorage.getItem('ga_token');const e=localStorage.getItem('ga_email');if(t&&e){authToken=t;showApp(e);}}
 document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('login-email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
@@ -440,58 +465,30 @@ function navigate(screen,btn){
   document.getElementById('screen-'+screen).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(btn)btn.classList.add('active');screenStack=[screen];
-  if(screen==='analise')renderAnalise();
-  if(screen==='config')renderConfig();
-  if(screen==='dashboard')renderDashboard();
+  if(screen==='analise')renderAnalise();if(screen==='config')renderConfig();if(screen==='dashboard')renderDashboard();
 }
-function goTo(screen){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+screen).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  screenStack.push(screen);
-}
+function goTo(screen){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+screen).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));screenStack.push(screen);}
 function goBack(){
   screenStack.pop();const prev=screenStack[screenStack.length-1]||'dashboard';
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+prev).classList.add('active');
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+prev).classList.add('active');
   if(prev==='dashboard'){document.querySelector('[data-nav="dashboard"]').classList.add('active');renderDashboard();}
   if(prev==='ativos')renderAtivos();
 }
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});});
-document.getElementById('ativo-estado').addEventListener('change',function(){
-  document.getElementById('ativo-data-venda-group').style.display=this.value==='vendido'?'block':'none';
-});
 
 // LOAD
 async function loadAll(){[grupos,categorias,parceiros]=await Promise.all([api('grupos?order=nome'),api('categorias?order=nome'),api('parceiros?order=nome')]);}
-async function loadAtivos(gid){ativos=await api('ativos?grupo_id=eq.'+gid+'&select=*');}
+async function loadAtivos(gid){ativos=await api('ativos?grupo_id=eq.'+gid+'&select=*&order=estado.asc,data_aquisicao.asc');}
 async function loadMovimentos(aid){movimentos=await api('movimentos?ativo_id=eq.'+aid+'&order=data.desc,criado_em.desc&select=*,categorias(nome),movimento_parceiros(*,parceiros(nome))');}
 
-// ORDENAÇÃO: em_carteira primeiro, depois por data_aquisicao asc (mais antigo primeiro dentro de cada grupo)
-function sortAtivos(list){
-  return list.slice().sort((a,b)=>{
-    if(a.estado==='em_carteira'&&b.estado!=='em_carteira')return -1;
-    if(a.estado!=='em_carteira'&&b.estado==='em_carteira')return 1;
-    const da=a.data_aquisicao||'';const db=b.data_aquisicao||'';
-    return da.localeCompare(db);
-  });
-}
-
 // DIVISÃO UI
-function onValorChange(){
-  const total=parseFloat(document.getElementById('mov-valor').value)||0;
-  if(movParceiros.length===0)document.getElementById('mov-proprio').value=total>0?total.toFixed(2):'';
-  updateDiff();
-}
+function onValorChange(){const total=parseFloat(document.getElementById('mov-valor').value)||0;if(movParceiros.length===0)document.getElementById('mov-proprio').value=total>0?total.toFixed(2):'';updateDiff();}
 function updateDiff(){
-  const total=parseFloat(document.getElementById('mov-valor').value)||0;
-  const proprio=parseFloat(document.getElementById('mov-proprio').value)||0;
-  let soma=proprio;
-  movParceiros.forEach(p=>{const inp=document.getElementById('pinp-'+p.parceiro_id);if(inp)soma+=parseFloat(inp.value)||0;});
-  const diff=total-soma;
-  const bar=document.getElementById('diff-bar');
+  const total=parseFloat(document.getElementById('mov-valor').value)||0;const proprio=parseFloat(document.getElementById('mov-proprio').value)||0;
+  let soma=proprio;movParceiros.forEach(p=>{const inp=document.getElementById('pinp-'+p.parceiro_id);if(inp)soma+=parseFloat(inp.value)||0;});
+  const diff=total-soma;const bar=document.getElementById('diff-bar');
   if(total===0){bar.style.display='none';return;}
   bar.style.display='block';
   if(Math.abs(diff)<0.01){bar.className='diff-bar diff-ok';bar.textContent='✓ '+fmt(total)+' distribuídos';}
@@ -500,22 +497,17 @@ function updateDiff(){
 }
 function renderParticipacoes(){
   document.getElementById('participacoes-lista').innerHTML=movParceiros.map(p=>`
-    <div class="part-row">
-      <span class="part-nome">${p.nome}</span>
-      <input type="number" class="part-input" id="pinp-${p.parceiro_id}" value="${p.valor}" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="updateDiff()">
-      <button class="part-del" onclick="removeParceiro(${p.parceiro_id})">×</button>
-    </div>`).join('');
+    <div class="part-row"><span class="part-nome">${p.nome}</span>
+    <input type="number" class="part-input" id="pinp-${p.parceiro_id}" value="${p.valor}" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="updateDiff()">
+    <button class="part-del" onclick="removeParceiro(${p.parceiro_id})">×</button></div>`).join('');
   updateDiff();
 }
 function openAddParceiro(){
-  const ja=movParceiros.map(p=>p.parceiro_id);
-  const disp=parceiros.filter(p=>!ja.includes(p.id));
+  const ja=movParceiros.map(p=>p.parceiro_id);const disp=parceiros.filter(p=>!ja.includes(p.id));
   if(!disp.length){toast('Todos os parceiros já adicionados');return;}
   document.getElementById('lista-parceiros-sel').innerHTML=disp.map(p=>`
     <div class="card-sm" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;" onclick="addParceiroMov(${p.id},'${p.nome.replace(/'/g,"\\'")}')">
-      <span style="font-size:15px;">${p.nome}</span>
-      <span style="font-size:22px;color:var(--green);">+</span>
-    </div>`).join('');
+      <span style="font-size:15px;">${p.nome}</span><span style="font-size:22px;color:var(--green);">+</span></div>`).join('');
   openModal('modal-add-parceiro');
 }
 function addParceiroMov(id,nome){movParceiros.push({parceiro_id:id,nome,valor:''});renderParticipacoes();closeModal('modal-add-parceiro');}
@@ -526,37 +518,81 @@ async function renderDashboard(){
   document.getElementById('dash-grupos').innerHTML='<div class="loading">A carregar<span class="dot-anim"></span></div>';
   try{
     await loadAll();
-    const[movAll,ativosAll]=await Promise.all([api('movimentos?select=tipo,valor,valor_proprio,ativos(grupo_id)'),api('ativos?select=id,estado,grupo_id')]);
-    let tcp=0,trp=0;
-    movAll.forEach(m=>{if(m.tipo==='custo')tcp+=vpOf(m);else trp+=vpOf(m);});
-    const emC=ativosAll.filter(a=>a.estado==='em_carteira').length;
-    const res=trp-tcp;
+    const[movAll,ativosAll]=await Promise.all([
+      api('movimentos?select=tipo,valor,valor_proprio,ativos(grupo_id,estado,valor_previsto_venda,percentagem_lucro)'),
+      api('ativos?select=id,estado,grupo_id,valor_previsto_venda,percentagem_lucro')
+    ]);
+
+    // STATS GLOBAIS — só ativos em carteira para investido e lucro previsto
+    let investidoCarteira=0,lucroPrevistoTotal=0,balancoTotal=0;
+    let emCarteiraCount=0;
+
+    // Calcular custo por ativo (em carteira)
+    const custosPorAtivo={};const receitasPorAtivo={};
+    movAll.forEach(m=>{
+      const aid=m.ativos?m.ativos.id:null;
+      // Precisamos do ativo_id — buscar separado
+    });
+
+    // Abordagem direta por ativo
+    const movPorAtivo=await api('movimentos?select=tipo,valor,valor_proprio,ativo_id');
+    movPorAtivo.forEach(m=>{
+      if(!custosPorAtivo[m.ativo_id])custosPorAtivo[m.ativo_id]=0;
+      if(!receitasPorAtivo[m.ativo_id])receitasPorAtivo[m.ativo_id]=0;
+      if(m.tipo==='custo')custosPorAtivo[m.ativo_id]+=parseFloat(m.valor);
+      else receitasPorAtivo[m.ativo_id]+=parseFloat(m.valor);
+    });
+
+    ativosAll.forEach(a=>{
+      const custo=custosPorAtivo[a.id]||0;const receita=receitasPorAtivo[a.id]||0;
+      const resultado=receita-custo;
+      balancoTotal+=resultado;
+      if(a.estado==='em_carteira'){
+        emCarteiraCount++;
+        investidoCarteira+=custo;
+        if(a.valor_previsto_venda&&a.percentagem_lucro){
+          const lucBruto=parseFloat(a.valor_previsto_venda)-custo;
+          lucroPrevistoTotal+=lucBruto*(parseFloat(a.percentagem_lucro)/100);
+        }
+      }
+    });
+
     document.getElementById('dash-stats').innerHTML=`
-      <div class="stat-card"><div class="stat-label">Em carteira</div><div class="stat-val blue">${emC}</div></div>
-      <div class="stat-card"><div class="stat-label">Meu resultado</div><div class="stat-val ${res>=0?'green':'red'}">${fmt(res)}</div></div>
-      <div class="stat-card"><div class="stat-label">Meu investido</div><div class="stat-val amber">${fmt(tcp)}</div></div>
-      <div class="stat-card"><div class="stat-label">Meu recebido</div><div class="stat-val green">${fmt(trp)}</div></div>`;
+      <div class="stat-card"><div class="stat-label">Em carteira</div><div class="stat-val blue">${emCarteiraCount}</div></div>
+      <div class="stat-card"><div class="stat-label">Investido</div><div class="stat-val amber">${fmt(investidoCarteira)}</div></div>
+      <div class="stat-card"><div class="stat-label">Lucro previsto</div><div class="stat-val ${lucroPrevistoTotal>=0?'green':'red'}">${fmt(lucroPrevistoTotal)}</div></div>
+      <div class="stat-card"><div class="stat-label">Balanço total</div><div class="stat-val ${balancoTotal>=0?'green':'red'}">${fmt(balancoTotal)}</div></div>`;
+
     if(!grupos.length){document.getElementById('dash-grupos').innerHTML='<div class="empty"><div class="empty-icon">📁</div><div class="empty-text">Ainda não tens grupos.<br>Vai a Configurações para criar o primeiro.</div></div>';return;}
+
     let html='';
     for(const g of grupos){
-      const movG=movAll.filter(m=>m.ativos&&m.ativos.grupo_id===g.id);
-      const cp=movG.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
-      const rp=movG.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
-      const r=rp-cp;
       const ag=ativosAll.filter(a=>a.grupo_id===g.id);
-      const ec=ag.filter(a=>a.estado==='em_carteira').length;
+      const agCarteira=ag.filter(a=>a.estado==='em_carteira');
+      let gInvestido=0,gLucroPrevisto=0,gBalanco=0;
+      ag.forEach(a=>{
+        const custo=custosPorAtivo[a.id]||0;const receita=receitasPorAtivo[a.id]||0;
+        gBalanco+=receita-custo;
+        if(a.estado==='em_carteira'){
+          gInvestido+=custo;
+          if(a.valor_previsto_venda&&a.percentagem_lucro){
+            const lb=parseFloat(a.valor_previsto_venda)-custo;
+            gLucroPrevisto+=lb*(parseFloat(a.percentagem_lucro)/100);
+          }
+        }
+      });
       html+=`<div class="grupo-card" onclick="openGrupo(${g.id},'${g.nome.replace(/'/g,"\\'")}')">
         <div class="grupo-header">
           <div class="grupo-nome">${g.nome}</div>
           <div style="display:flex;gap:6px;align-items:center;">
             <button class="btn-sm" style="font-size:11px;padding:3px 8px;" onclick="event.stopPropagation();openModalGrupo(${g.id})">editar</button>
-            <div class="grupo-badge">${ag.length} · ${ec} em carteira</div>
+            <span style="font-size:11px;color:var(--text2);">${agCarteira.length}/${ag.length}</span>
           </div>
         </div>
         <div class="grupo-stats">
-          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--amber)">${fmt(cp)}</div><div class="grupo-stat-label">Meu investido</div></div>
-          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--green)">${fmt(rp)}</div><div class="grupo-stat-label">Meu recebido</div></div>
-          <div class="grupo-stat"><div class="grupo-stat-val" style="color:${r>=0?'var(--green)':'var(--red)'}">${fmt(r)}</div><div class="grupo-stat-label">Meu resultado</div></div>
+          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--amber)">${fmt(gInvestido)}</div><div class="grupo-stat-label">Investido</div></div>
+          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--green)">${fmt(gLucroPrevisto)}</div><div class="grupo-stat-label">Lucro previsto</div></div>
+          <div class="grupo-stat" style="grid-column:span 2;"><div class="grupo-stat-val" style="color:${gBalanco>=0?'var(--green)':'var(--red)'}">${fmt(gBalanco)}</div><div class="grupo-stat-label">Balanço total (todos os ativos)</div></div>
         </div></div>`;
     }
     document.getElementById('dash-grupos').innerHTML=html;
@@ -567,41 +603,81 @@ async function renderDashboard(){
 }
 
 // ATIVOS
-async function openGrupo(id,nome){currentGrupoId=id;document.getElementById('ativos-titulo').textContent=nome;goTo('ativos');await renderAtivos();}
+async function openGrupo(id,nome){currentGrupoId=id;document.getElementById('ativos-titulo').textContent=nome;vendidosOffset=0;goTo('ativos');await renderAtivos();}
+
 async function renderAtivos(){
   document.getElementById('ativos-lista').innerHTML='<div class="loading">A carregar<span class="dot-anim"></span></div>';
   await loadAtivos(currentGrupoId);
   const movAll=await api('movimentos?select=tipo,valor,valor_proprio,ativo_id');
-  let emCarteira=0,cpTotal=0,rpTotal=0;
-  for(const a of ativos){
-    const movs=movAll.filter(m=>m.ativo_id===a.id);
-    a._custoP=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
-    a._receitaP=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
-    a._resultado=a._receitaP-a._custoP;
-    cpTotal+=a._custoP;rpTotal+=a._receitaP;
-    if(a.estado==='em_carteira')emCarteira++;
-  }
-  const res=rpTotal-cpTotal;
-  document.getElementById('ativos-stats').innerHTML=`
-    <div class="stat-card"><div class="stat-label">Em carteira</div><div class="stat-val blue">${emCarteira}</div></div>
-    <div class="stat-card"><div class="stat-label">Meu resultado</div><div class="stat-val ${res>=0?'green':'red'}">${fmt(res)}</div></div>`;
   document.getElementById('ativos-sub').textContent=grupos.find(g=>g.id===currentGrupoId)?.nome||'';
-  if(!ativos.length){document.getElementById('ativos-lista').innerHTML='<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">Sem ativos neste grupo.<br>Clica em + para adicionar.</div></div>';return;}
 
-  // Ordenação: em_carteira primeiro, depois data_aquisicao asc
-  const sorted=sortAtivos(ativos);
-  document.getElementById('ativos-lista').innerHTML=sorted.map(a=>`
-    <div class="ativo-card" onclick="openAtivo(${a.id},'${a.nome.replace(/'/g,"\\'")}')">
+  const emCarteira=ativos.filter(a=>a.estado==='em_carteira');
+  const vendidos=ativos.filter(a=>a.estado!=='em_carteira');
+
+  function calcAtivo(a){
+    const movs=movAll.filter(m=>m.ativo_id===a.id);
+    const custo=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+parseFloat(m.valor),0);
+    const receita=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+parseFloat(m.valor),0);
+    const custoP=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
+    const receitaP=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
+    const lucroP=a.valor_previsto_venda&&a.percentagem_lucro?(parseFloat(a.valor_previsto_venda)-custo)*(parseFloat(a.percentagem_lucro)/100):null;
+    return{custo,receita,custoP,receitaP,resultado:receitaP-custoP,lucroP};
+  }
+
+  function ativoHTML(a){
+    const c=calcAtivo(a);
+    const previsto=c.lucroP!==null?`<div class="ativo-num"><div class="ativo-num-val" style="color:var(--purple)">${fmt(c.lucroP)}</div><div class="ativo-num-label">Lucro previsto</div></div>`:'';
+    return `<div class="ativo-card" onclick="openAtivo(${a.id},'${a.nome.replace(/'/g,"\\'")}')">
       <div class="ativo-header">
         <div><div class="ativo-nome">${a.nome}</div>${a.descricao?`<div style="font-size:12px;color:var(--text2);margin-top:2px;">${a.descricao}</div>`:''}</div>
         <span class="ativo-estado ${a.estado}">${a.estado==='em_carteira'?'Em carteira':'Vendido'}</span>
       </div>
       <div class="ativo-nums">
-        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--amber)">${fmt(a._custoP)}</div><div class="ativo-num-label">Meu custo</div></div>
-        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--green)">${fmt(a._receitaP)}</div><div class="ativo-num-label">Minha receita</div></div>
-        <div class="ativo-num"><div class="ativo-num-val" style="color:${a._resultado>=0?'var(--green)':'var(--red)'}">${fmt(a._resultado)}</div><div class="ativo-num-label">Meu resultado</div></div>
-      </div>
-    </div>`).join('');
+        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--amber)">${fmt(c.custoP)}</div><div class="ativo-num-label">Meu custo</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--green)">${fmt(c.receitaP)}</div><div class="ativo-num-label">Minha receita</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:${c.resultado>=0?'var(--green)':'var(--red)'}">${fmt(c.resultado)}</div><div class="ativo-num-label">Resultado</div></div>
+        ${previsto}
+      </div></div>`;
+  }
+
+  if(!emCarteira.length&&!vendidos.length){
+    document.getElementById('ativos-lista').innerHTML='<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">Sem ativos neste grupo.<br>Clica em + para adicionar.</div></div>';
+    document.getElementById('ativos-vendidos-lista').innerHTML='';
+    document.getElementById('btn-carregar-mais').style.display='none';
+    return;
+  }
+
+  // Em carteira — todos
+  document.getElementById('ativos-lista').innerHTML=emCarteira.length
+    ?emCarteira.map(ativoHTML).join('')
+    :'<div style="color:var(--text2);font-size:13px;padding:.5rem 0;">Nenhum ativo em carteira</div>';
+
+  // Vendidos — paginados
+  vendidosOffset=0;
+  renderVendidos(vendidos,movAll,ativoHTML);
+}
+
+function renderVendidos(vendidos,movAll,fn){
+  const slice=vendidos.slice(0,vendidosOffset+VENDIDOS_PAGE);
+  const tem=vendidos.length>0;
+  document.getElementById('ativos-vendidos-lista').innerHTML=tem
+    ?`<div class="divider-label">Vendidos (${vendidos.length})</div>`+slice.map(fn).join('')
+    :'';
+  vendidosOffset+=VENDIDOS_PAGE;
+  const btnMais=document.getElementById('btn-carregar-mais');
+  btnMais.style.display=vendidosOffset<vendidos.length?'block':'none';
+  // Guardar referência para próxima página
+  window._vendidosData={vendidos,movAll,fn};
+}
+
+function carregarMaisVendidos(){
+  if(!window._vendidosData)return;
+  const{vendidos,movAll,fn}=window._vendidosData;
+  const slice=vendidos.slice(0,vendidosOffset+VENDIDOS_PAGE);
+  const divider=`<div class="divider-label">Vendidos (${vendidos.length})</div>`;
+  document.getElementById('ativos-vendidos-lista').innerHTML=divider+slice.map(fn).join('');
+  vendidosOffset+=VENDIDOS_PAGE;
+  document.getElementById('btn-carregar-mais').style.display=vendidosOffset<vendidos.length?'block':'none';
 }
 
 // ATIVO DETALHE
@@ -615,6 +691,8 @@ async function renderAtivo(){
   const cp=movimentos.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
   const rp=movimentos.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
   const resT=rt-ct,resP=rp-cp;
+  const lucroP=ativo&&ativo.valor_previsto_venda&&ativo.percentagem_lucro
+    ?(parseFloat(ativo.valor_previsto_venda)-ct)*(parseFloat(ativo.percentagem_lucro)/100):null;
   document.getElementById('ativo-sub').textContent=ativo?(ativo.estado==='em_carteira'?'Em carteira':'Vendido'):'';
   document.getElementById('ativo-resumo').innerHTML=`
     <div class="card" style="margin-bottom:.75rem;">
@@ -624,6 +702,7 @@ async function renderAtivo(){
       </div>
       <div class="resumo-row"><span class="resumo-label">Custo total</span><span class="resumo-val" style="color:var(--red)">${fmt(ct)}</span></div>
       <div class="resumo-row"><span class="resumo-label">Receita total</span><span class="resumo-val" style="color:var(--green)">${fmt(rt)}</span></div>
+      ${lucroP!==null?`<div class="resumo-row"><span class="resumo-label">Lucro previsto (meu)</span><span class="resumo-val" style="color:var(--purple)">${fmt(lucroP)}</span></div>`:''}
     </div>
     <div class="card" style="margin-bottom:.75rem;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
@@ -638,6 +717,8 @@ async function renderAtivo(){
     const vpVal=vpOf(m);const vtVal=parseFloat(m.valor);
     const temP=m.movimento_parceiros&&m.movimento_parceiros.length>0;
     const pills=temP?m.movimento_parceiros.map(mp=>`<span class="parceiro-pill">${mp.parceiros?mp.parceiros.nome:'?'} ${fmt(mp.valor)}</span>`).join(''):'';
+    const tipoClass=m.tipo==='custo'?'custo':m.tipo==='receita'?'receita':'troca';
+    const sinal=m.tipo==='custo'?'−':'+';
     return `<div class="mov-card">
       <div class="mov-top">
         <div class="mov-left">
@@ -646,12 +727,12 @@ async function renderAtivo(){
           <div class="mov-date">${fmtDate(m.data)}</div>
         </div>
         <div class="mov-right">
-          <div class="mov-val-total ${m.tipo}">${m.tipo==='custo'?'−':'+'}${fmt(vtVal)}</div>
+          <div class="mov-val-total ${tipoClass}">${sinal}${fmt(vtVal)}</div>
           ${vpVal!==vtVal?`<div class="mov-val-proprio">Minha: ${fmt(vpVal)}</div>`:''}
         </div>
         <div class="mov-actions">
-          <button class="mov-btn" onclick="editMovimento(${m.id})" title="Editar">✎</button>
-          <button class="mov-btn" onclick="deleteMovimento(${m.id})" title="Eliminar">×</button>
+          <button class="mov-btn" onclick="editMovimento(${m.id})">✎</button>
+          <button class="mov-btn" onclick="deleteMovimento(${m.id})">×</button>
         </div>
       </div>
       ${temP?`<div class="mov-parceiros">${pills}</div>`:''}
@@ -659,79 +740,170 @@ async function renderAtivo(){
   }).join('');
 }
 
+// TROCA
+function iniciarTroca(){
+  closeModal('modal-opcoes-ativo');
+  const ativo=ativos.find(a=>a.id===currentAtivoId);
+  if(!ativo){toast('Ativo não encontrado');return;}
+  // Preencher grupos
+  const sel=document.getElementById('troca-grupo');
+  sel.innerHTML=grupos.map(g=>`<option value="${g.id}">${g.nome}</option>`).join('');
+  document.getElementById('troca-nome').value='';
+  document.getElementById('troca-desc').value='';
+  document.getElementById('troca-previsto').value='';
+  document.getElementById('troca-pct').value=ativo.percentagem_lucro||100;
+  document.getElementById('troca-recebido').value='';
+  document.getElementById('troca-pago').value='';
+  document.getElementById('troca-preview').textContent='';
+  // Info box
+  const movs=movimentos;
+  const ct=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+parseFloat(m.valor),0);
+  const rt=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+parseFloat(m.valor),0);
+  document.getElementById('troca-info-box').innerHTML=`<strong>${ativo.nome}</strong><br>Custo acumulado: ${fmt(ct)} · Receita: ${fmt(rt)} · Resultado: ${fmt(rt-ct)}`;
+  openModal('modal-troca');
+}
+
+function calcTrocaPreview(){
+  const recebido=parseFloat(document.getElementById('troca-recebido').value)||0;
+  const pago=parseFloat(document.getElementById('troca-pago').value)||0;
+  const ajuste=recebido-pago;
+  const prev=document.getElementById('troca-preview');
+  if(ajuste===0){prev.textContent='';return;}
+  prev.textContent=ajuste>0?`Recebes ${fmt(ajuste)} extra na troca`:`Pagas ${fmt(Math.abs(ajuste))} extra na troca`;
+}
+
+async function confirmarTroca(){
+  const novoGrupoId=parseInt(document.getElementById('troca-grupo').value);
+  const novoNome=document.getElementById('troca-nome').value.trim();
+  const novoDesc=document.getElementById('troca-desc').value.trim();
+  const novoPrevisto=parseFloat(document.getElementById('troca-previsto').value)||null;
+  const novoPct=parseFloat(document.getElementById('troca-pct').value)||100;
+  const recebido=parseFloat(document.getElementById('troca-recebido').value)||0;
+  const pago=parseFloat(document.getElementById('troca-pago').value)||0;
+  if(!novoNome){toast('Indica o nome do novo ativo');return;}
+
+  try{
+    // 1. Calcular resultado do ativo antigo
+    const movs=movimentos;
+    const ct=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+parseFloat(m.valor),0);
+    const rt=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+parseFloat(m.valor),0);
+
+    // 2. Calcular parceiros do ativo antigo
+    const partMap={};// pid -> {nome, custo, receita}
+    movs.forEach(m=>{
+      if(m.movimento_parceiros)m.movimento_parceiros.forEach(mp=>{
+        if(!partMap[mp.parceiro_id])partMap[mp.parceiro_id]={nome:mp.parceiros?mp.parceiros.nome:'?',custo:0,receita:0};
+        if(m.tipo==='custo')partMap[mp.parceiro_id].custo+=parseFloat(mp.valor);
+        else partMap[mp.parceiro_id].receita+=parseFloat(mp.valor);
+      });
+    });
+
+    // 3. Ajuste de troca (recebido/pago) — dividido proporcionalmente
+    // Calcular o meu custo e receita
+    const meuCusto=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
+    const minhaReceita=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
+    const custoTotalParceiros=Object.values(partMap).reduce((s,p)=>s+p.custo,0);
+    const receitaTotalParceiros=Object.values(partMap).reduce((s,p)=>s+p.receita,0);
+
+    // Ajuste proporcional ao peso de cada um
+    let ajusteExtra=recebido-pago;// positivo = recebemos, negativo = pagamos
+    // Dividir proporcionalmente pelo total de ativos (simples: igual entre todos os participantes)
+    const numParticipantes=1+Object.keys(partMap).length;
+    const ajustePorParticipante=numParticipantes>0?ajusteExtra/numParticipantes:ajusteExtra;
+
+    // 4. Calcular valor a transferir para novo ativo
+    // resultado final ativo antigo após ajuste = (rt + recebido - pago) - ct
+    const resultadoFinal=(rt+recebido-pago)-ct;
+    const valorNovoAtivo=resultadoFinal<0?Math.abs(resultadoFinal):0;
+
+    // 5. Marcar ativo antigo como vendido
+    await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'vendido',motivo_venda:'troca',data_venda:today()});
+
+    // 6. Criar novo ativo
+    const[novoAtivo]=await api('ativos','POST',{
+      grupo_id:novoGrupoId,nome:novoNome,descricao:novoDesc||null,
+      estado:'em_carteira',data_aquisicao:today(),
+      valor_previsto_venda:novoPrevisto,percentagem_lucro:novoPct
+    });
+
+    // 7. Criar movimento de troca no novo ativo (se há valor a transferir)
+    if(valorNovoAtivo>0){
+      // Calcular o meu peso no custo total
+      const totalCusto=ct||1;
+      const meuPeso=meuCusto/totalCusto;
+      const minhaParte=valorNovoAtivo*meuPeso;
+
+      // Obter/criar categoria troca
+      let catTrocaArr=await api('categorias?nome=eq.Troca');
+      let catTrocaId;
+      if(!catTrocaArr.length){
+        const[nc]=await api('categorias','POST',{nome:'Troca',tipo:'custo'});
+        catTrocaId=nc.id;
+      } else {catTrocaId=catTrocaArr[0].id;}
+
+      const[novoMov]=await api('movimentos','POST',{
+        ativo_id:novoAtivo.id,categoria_id:catTrocaId,tipo:'custo',
+        valor:valorNovoAtivo,valor_proprio:minhaParte,
+        data:today(),descricao:`Transferido da troca de ${ativos.find(a=>a.id===currentAtivoId)?.nome||'ativo anterior'}`
+      });
+
+      // Criar participações para parceiros
+      for(const pid of Object.keys(partMap)){
+        const p=partMap[pid];
+        const pesoParceiro=(p.custo||0)/totalCusto;
+        const valorParceiro=valorNovoAtivo*pesoParceiro;
+        if(valorParceiro>0.01){
+          await api('movimento_parceiros','POST',{movimento_id:novoMov.id,parceiro_id:parseInt(pid),valor:parseFloat(valorParceiro.toFixed(2))});
+        }
+      }
+    }
+
+    closeModal('modal-troca');
+    toast('Troca registada com sucesso!');
+    // Recarregar e navegar para novo ativo
+    await loadAtivos(currentGrupoId);
+    currentAtivoId=novoAtivo.id;
+    document.getElementById('ativo-titulo').textContent=novoNome;
+    await renderAtivo();
+    await loadAll();
+  }catch(e){toast('Erro na troca: '+e.message);}
+}
+
 // ANÁLISE
 async function renderAnalise(){
   document.getElementById('analise-content').innerHTML='<div class="loading">A calcular<span class="dot-anim"></span></div>';
   await loadAll();
-  // Buscar movimentos com parceiros, ativo e grupo
   const movAll=await api('movimentos?select=id,tipo,valor,valor_proprio,data,ativo_id,movimento_parceiros(parceiro_id,valor,parceiros(nome)),ativos(grupo_id)');
   const ativosAll=await api('ativos?select=id,estado,grupo_id');
-
-  // Estrutura: anos -> grupos -> {custo, receita, custoP, receitaP, parceiros:{id:{nome,custo,receita}}}
   const estrutura={};
-
   for(const m of movAll){
-    const ano=m.data?m.data.slice(0,4):'N/A';
-    const gid=m.ativos?m.ativos.grupo_id:null;
-    if(!gid)continue;
+    const ano=m.data?m.data.slice(0,4):'N/A';const gid=m.ativos?m.ativos.grupo_id:null;if(!gid)continue;
     if(!estrutura[ano])estrutura[ano]={};
     if(!estrutura[ano][gid])estrutura[ano][gid]={custo:0,receita:0,custoP:0,receitaP:0,parceiros:{}};
     const blk=estrutura[ano][gid];
     const vt=parseFloat(m.valor);const vp=vpOf(m);
-    if(m.tipo==='custo'){blk.custo+=vt;blk.custoP+=vp;}
-    else{blk.receita+=vt;blk.receitaP+=vp;}
-    // parceiros
+    if(m.tipo==='custo'){blk.custo+=vt;blk.custoP+=vp;}else{blk.receita+=vt;blk.receitaP+=vp;}
     if(m.movimento_parceiros){
       for(const mp of m.movimento_parceiros){
         const pid=mp.parceiro_id;const pnome=mp.parceiros?mp.parceiros.nome:'?';
         if(!blk.parceiros[pid])blk.parceiros[pid]={nome:pnome,custo:0,receita:0};
-        if(m.tipo==='custo')blk.parceiros[pid].custo+=parseFloat(mp.valor);
-        else blk.parceiros[pid].receita+=parseFloat(mp.valor);
+        if(m.tipo==='custo')blk.parceiros[pid].custo+=parseFloat(mp.valor);else blk.parceiros[pid].receita+=parseFloat(mp.valor);
       }
     }
   }
-
-  // Totais globais para gráfico
-  let totalGlobal={custo:0,receita:0,custoP:0,receitaP:0};
-  const parceirosTotais={};
-  for(const ano of Object.keys(estrutura)){
-    for(const gid of Object.keys(estrutura[ano])){
-      const b=estrutura[ano][gid];
-      totalGlobal.custo+=b.custo;totalGlobal.receita+=b.receita;
-      totalGlobal.custoP+=b.custoP;totalGlobal.receitaP+=b.receitaP;
-      for(const pid of Object.keys(b.parceiros)){
-        if(!parceirosTotais[pid])parceirosTotais[pid]={nome:b.parceiros[pid].nome,custo:0,receita:0};
-        parceirosTotais[pid].custo+=b.parceiros[pid].custo;
-        parceirosTotais[pid].receita+=b.parceiros[pid].receita;
-      }
-    }
-  }
-
   const anos=Object.keys(estrutura).sort().reverse();
   let html='';
+  if(!anos.length){html='<div class="empty"><div class="empty-icon">📊</div><div class="empty-text">Sem dados ainda.</div></div>';document.getElementById('analise-content').innerHTML=html;return;}
 
-  if(!anos.length){
-    html='<div class="empty"><div class="empty-icon">📊</div><div class="empty-text">Sem dados ainda.</div></div>';
-    document.getElementById('analise-content').innerHTML=html;return;
-  }
-
-  // Helper para bloco de linhas de um grupo/total
-  function blocoLinhas(b,isTotais=false){
+  function blocoLinhas(b){
     const resT=b.receita-b.custo;const resP=b.receitaP-b.custoP;
     let h='';
     h+=`<div class="analise-row"><span class="analise-label">Custo total</span><span class="analise-val" style="color:var(--red)">${fmt(b.custo)}</span></div>`;
     h+=`<div class="analise-row"><span class="analise-label">Meu custo</span><span class="analise-val" style="color:var(--amber)">${fmt(b.custoP)}</span></div>`;
-    // parceiros com custo
-    for(const pid of Object.keys(b.parceiros)){
-      const p=b.parceiros[pid];
-      if(p.custo>0)h+=`<div class="analise-row"><span class="analise-label" style="padding-left:8px;">↳ ${p.nome}</span><span class="analise-val" style="color:var(--amber)">${fmt(p.custo)}</span></div>`;
-    }
+    for(const pid of Object.keys(b.parceiros)){const p=b.parceiros[pid];if(p.custo>0)h+=`<div class="analise-row"><span class="analise-label" style="padding-left:10px;">↳ ${p.nome}</span><span class="analise-val" style="color:var(--amber)">${fmt(p.custo)}</span></div>`;}
     h+=`<div class="analise-row"><span class="analise-label">Receita total</span><span class="analise-val" style="color:var(--green)">${fmt(b.receita)}</span></div>`;
     h+=`<div class="analise-row"><span class="analise-label">Minha receita</span><span class="analise-val" style="color:var(--green)">${fmt(b.receitaP)}</span></div>`;
-    for(const pid of Object.keys(b.parceiros)){
-      const p=b.parceiros[pid];
-      if(p.receita>0)h+=`<div class="analise-row"><span class="analise-label" style="padding-left:8px;">↳ ${p.nome}</span><span class="analise-val" style="color:var(--green)">${fmt(p.receita)}</span></div>`;
-    }
+    for(const pid of Object.keys(b.parceiros)){const p=b.parceiros[pid];if(p.receita>0)h+=`<div class="analise-row"><span class="analise-label" style="padding-left:10px;">↳ ${p.nome}</span><span class="analise-val" style="color:var(--green)">${fmt(p.receita)}</span></div>`;}
     h+=`<div class="analise-row"><span class="analise-label">Resultado total</span><span class="analise-val" style="color:${resT>=0?'var(--green)':'var(--red)'}">${fmt(resT)}</span></div>`;
     h+=`<div class="analise-row"><span class="analise-label">Meu resultado</span><span class="analise-val" style="color:${resP>=0?'var(--green)':'var(--red)'}">${fmt(resP)}</span></div>`;
     return h;
@@ -739,101 +911,47 @@ async function renderAnalise(){
 
   for(const ano of anos){
     const gids=Object.keys(estrutura[ano]);
-    // Totais do ano
     const totAno={custo:0,receita:0,custoP:0,receitaP:0,parceiros:{}};
     for(const gid of gids){
-      const b=estrutura[ano][gid];
-      totAno.custo+=b.custo;totAno.receita+=b.receita;
-      totAno.custoP+=b.custoP;totAno.receitaP+=b.receitaP;
-      for(const pid of Object.keys(b.parceiros)){
-        if(!totAno.parceiros[pid])totAno.parceiros[pid]={nome:b.parceiros[pid].nome,custo:0,receita:0};
-        totAno.parceiros[pid].custo+=b.parceiros[pid].custo;
-        totAno.parceiros[pid].receita+=b.parceiros[pid].receita;
-      }
+      const b=estrutura[ano][gid];totAno.custo+=b.custo;totAno.receita+=b.receita;totAno.custoP+=b.custoP;totAno.receitaP+=b.receitaP;
+      for(const pid of Object.keys(b.parceiros)){if(!totAno.parceiros[pid])totAno.parceiros[pid]={nome:b.parceiros[pid].nome,custo:0,receita:0};totAno.parceiros[pid].custo+=b.parceiros[pid].custo;totAno.parceiros[pid].receita+=b.parceiros[pid].receita;}
     }
     const resAnoP=totAno.receitaP-totAno.custoP;
-
-    html+=`<div class="analise-ano">
-      <div class="analise-ano-header">
-        <span class="analise-ano-title">${ano}</span>
-        <span class="resultado-badge ${resAnoP>=0?'positivo':'negativo'}">${resAnoP>=0?'+':''}${fmt(resAnoP)}</span>
-      </div>`;
-
-    // Um bloco por grupo
-    for(const gid of gids){
-      const g=grupos.find(g=>g.id==gid);
-      const b=estrutura[ano][gid];
-      html+=`<div class="analise-grupo-block">
-        <div class="analise-grupo-title">${g?g.nome:'Grupo'}</div>
-        ${blocoLinhas(b)}
-      </div>`;
-    }
-
-    // Totais do ano (só se mais de 1 grupo)
-    if(gids.length>1){
-      html+=`<div class="analise-totais-block">
-        <div class="analise-totais-title">Totais ${ano}</div>
-        ${blocoLinhas(totAno,true)}
-      </div>`;
-    }
-
+    html+=`<div class="analise-ano"><div class="analise-ano-header"><span class="analise-ano-title">${ano}</span><span class="resultado-badge ${resAnoP>=0?'positivo':'negativo'}">${resAnoP>=0?'+':''}${fmt(resAnoP)}</span></div>`;
+    for(const gid of gids){const g=grupos.find(g=>g.id==gid);const b=estrutura[ano][gid];html+=`<div class="analise-grupo-block"><div class="analise-grupo-title">${g?g.nome:'Grupo'}</div>${blocoLinhas(b)}</div>`;}
+    if(gids.length>1){html+=`<div class="analise-totais-block"><div class="analise-totais-title">Totais ${ano}</div>${blocoLinhas(totAno)}</div>`;}
     html+=`</div>`;
   }
 
-  // GRÁFICO CIRCULAR — meu investimento por grupo
-  const pieData=[];
-  const pieColors=['#4ade80','#60a5fa','#fbbf24','#f87171','#a78bfa','#34d399','#fb923c','#e879f9'];
+  // GRÁFICO
+  const custosPorAtivo2={};
+  const movAll2=await api('movimentos?select=tipo,valor,ativo_id');
+  movAll2.forEach(m=>{if(!custosPorAtivo2[m.ativo_id])custosPorAtivo2[m.ativo_id]=0;if(m.tipo==='custo')custosPorAtivo2[m.ativo_id]+=parseFloat(m.valor);});
+  const pieData=[];const pieColors=['#4ade80','#60a5fa','#fbbf24','#f87171','#a78bfa','#34d399','#fb923c','#e879f9'];
   for(const g of grupos){
-    let custoG=0;
-    for(const ano of Object.keys(estrutura)){
-      if(estrutura[ano][g.id])custoG+=estrutura[ano][g.id].custoP;
-    }
-    if(custoG>0)pieData.push({nome:g.nome,valor:custoG});
+    let cg=0;ativosAll.filter(a=>a.grupo_id===g.id).forEach(a=>{cg+=custosPorAtivo2[a.id]||0;});
+    if(cg>0)pieData.push({nome:g.nome,valor:cg});
   }
-  // Parceiros no gráfico
-  const totalPieInvestido=pieData.reduce((s,d)=>s+d.valor,0);
-
   if(pieData.length>0){
     const size=200;const cx=size/2;const cy=size/2;const r=80;const ri=45;
-    let svgPaths='';let startAngle=-Math.PI/2;
-    const total=pieData.reduce((s,d)=>s+d.valor,0);
+    let svgPaths='';let startAngle=-Math.PI/2;const total=pieData.reduce((s,d)=>s+d.valor,0);
     pieData.forEach((d,i)=>{
-      const angle=(d.valor/total)*2*Math.PI;
-      const endAngle=startAngle+angle;
-      const x1=cx+r*Math.cos(startAngle);const y1=cy+r*Math.sin(startAngle);
-      const x2=cx+r*Math.cos(endAngle);const y2=cy+r*Math.sin(endAngle);
-      const xi1=cx+ri*Math.cos(startAngle);const yi1=cy+ri*Math.sin(startAngle);
-      const xi2=cx+ri*Math.cos(endAngle);const yi2=cy+ri*Math.sin(endAngle);
-      const largeArc=angle>Math.PI?1:0;
-      const color=pieColors[i%pieColors.length];
+      const angle=(d.valor/total)*2*Math.PI;const endAngle=startAngle+angle;
+      const x1=cx+r*Math.cos(startAngle);const y1=cy+r*Math.sin(startAngle);const x2=cx+r*Math.cos(endAngle);const y2=cy+r*Math.sin(endAngle);
+      const xi1=cx+ri*Math.cos(startAngle);const yi1=cy+ri*Math.sin(startAngle);const xi2=cx+ri*Math.cos(endAngle);const yi2=cy+ri*Math.sin(endAngle);
+      const largeArc=angle>Math.PI?1:0;const color=pieColors[i%pieColors.length];
       svgPaths+=`<path d="M${xi1},${yi1} L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} L${xi2},${yi2} A${ri},${ri} 0 ${largeArc},0 ${xi1},${yi1}" fill="${color}" stroke="var(--bg)" stroke-width="2"/>`;
       startAngle=endAngle;
     });
-
     let legendHtml='';
-    pieData.forEach((d,i)=>{
-      const pct=((d.valor/total)*100).toFixed(1);
-      legendHtml+=`<div class="legend-item">
-        <div class="legend-dot" style="background:${pieColors[i%pieColors.length]};"></div>
-        <span class="legend-label">${d.nome}</span>
-        <span class="legend-val">${fmt(d.valor)}</span>
-        <span class="legend-pct">${pct}%</span>
-      </div>`;
-    });
-
-    html+=`<div class="chart-container">
-      <div class="chart-title">O meu investimento total por grupo</div>
-      <div class="pie-wrap">
-        <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-          ${svgPaths}
-          <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="10" fill="var(--text2)" font-family="DM Sans,sans-serif">Total</text>
-          <text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" font-family="DM Mono,monospace">${fmt(total)}</text>
-        </svg>
-        <div class="pie-legend">${legendHtml}</div>
-      </div>
-    </div>`;
+    pieData.forEach((d,i)=>{const pct=((d.valor/total)*100).toFixed(1);legendHtml+=`<div class="legend-item"><div class="legend-dot" style="background:${pieColors[i%pieColors.length]};"></div><span class="legend-label">${d.nome}</span><span class="legend-val">${fmt(d.valor)}</span><span class="legend-pct">${pct}%</span></div>`;});
+    html+=`<div class="chart-container"><div class="chart-title">Investimento total por grupo</div><div class="pie-wrap">
+      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${svgPaths}
+        <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="10" fill="var(--text2)" font-family="DM Sans,sans-serif">Total</text>
+        <text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" font-family="DM Mono,monospace">${fmt(total)}</text>
+      </svg>
+      <div class="pie-legend">${legendHtml}</div></div></div>`;
   }
-
   document.getElementById('analise-content').innerHTML=html;
 }
 
@@ -844,9 +962,20 @@ async function renderConfig(){
     <div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;">
       <span style="font-size:14px;">${g.nome}</span>
       <button class="btn-sm" onclick="openModalGrupo(${g.id})">editar</button>
-    </div>`).join(''):'<div style="color:var(--text2);font-size:13px;margin-bottom:.5rem;">Nenhum grupo criado</div>';
-  document.getElementById('config-parceiros').innerHTML=parceiros.length?parceiros.map(p=>`<div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;cursor:default;"><span style="font-size:14px;">${p.nome}</span></div>`).join(''):'<div style="color:var(--text2);font-size:13px;margin-bottom:.5rem;">Nenhum parceiro criado</div>';
-  document.getElementById('config-categorias').innerHTML=categorias.map(c=>`<div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;cursor:default;"><span style="font-size:14px;">${c.nome}</span><span style="font-size:11px;padding:3px 8px;border-radius:20px;background:${c.tipo==='custo'?'var(--red-bg)':'var(--green-bg)'};color:${c.tipo==='custo'?'var(--red)':'var(--green)'};">${c.tipo}</span></div>`).join('');
+    </div>`).join(''):'<div style="color:var(--text2);font-size:13px;margin-bottom:.5rem;">Nenhum grupo</div>';
+  document.getElementById('config-parceiros').innerHTML=parceiros.length?parceiros.map(p=>`
+    <div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:14px;">${p.nome}</span>
+      <button class="btn-sm" onclick="openModalParceiro(${p.id})">editar</button>
+    </div>`).join(''):'<div style="color:var(--text2);font-size:13px;margin-bottom:.5rem;">Nenhum parceiro</div>';
+  document.getElementById('config-categorias').innerHTML=categorias.map(c=>`
+    <div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:14px;">${c.nome}</span>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:11px;padding:3px 8px;border-radius:20px;background:${c.tipo==='custo'?'var(--red-bg)':'var(--green-bg)'};color:${c.tipo==='custo'?'var(--red)':'var(--green)'};">${c.tipo}</span>
+        <button class="btn-sm" onclick="openModalCategoria(${c.id})">editar</button>
+      </div>
+    </div>`).join('');
 }
 
 // GRUPO CRUD
@@ -857,23 +986,36 @@ function openModalGrupo(id){
   openModal('modal-grupo');
 }
 async function saveGrupo(){
-  const nome=document.getElementById('grupo-nome').value.trim();
-  if(!nome){toast('Indica o nome do grupo');return;}
-  const body={nome,descricao:document.getElementById('grupo-desc').value.trim()};
+  const nome=document.getElementById('grupo-nome').value.trim();if(!nome){toast('Indica o nome');return;}
   try{
-    if(editingGrupoId){await api('grupos?id=eq.'+editingGrupoId,'PATCH',body);toast('Grupo atualizado!');}
-    else{await api('grupos','POST',body);toast('Grupo criado!');}
-    closeModal('modal-grupo');await loadAll();renderConfig();renderDashboard();
+    if(editingGrupoId)await api('grupos?id=eq.'+editingGrupoId,'PATCH',{nome,descricao:document.getElementById('grupo-desc').value.trim()});
+    else await api('grupos','POST',{nome,descricao:document.getElementById('grupo-desc').value.trim()});
+    closeModal('modal-grupo');toast(editingGrupoId?'Grupo atualizado!':'Grupo criado!');await loadAll();renderConfig();renderDashboard();
   }catch(e){toast('Erro: '+e.message);}
 }
 
 // PARCEIRO CRUD
-function openModalNovoParceiro(){document.getElementById('parceiro-nome').value='';openModal('modal-parceiro');}
+function openModalParceiro(id){
+  editingParceiroId=id;
+  if(id){const p=parceiros.find(p=>p.id===id);document.getElementById('modal-parceiro-title').textContent='Editar Parceiro';document.getElementById('parceiro-nome').value=p.nome;document.getElementById('btn-del-parceiro').style.display='block';}
+  else{document.getElementById('modal-parceiro-title').textContent='Novo Parceiro';document.getElementById('parceiro-nome').value='';document.getElementById('btn-del-parceiro').style.display='none';}
+  openModal('modal-parceiro');
+}
 async function saveParceiro(){
-  const nome=document.getElementById('parceiro-nome').value.trim();
-  if(!nome){toast('Indica o nome do parceiro');return;}
-  try{await api('parceiros','POST',{nome});closeModal('modal-parceiro');toast('Parceiro criado!');await loadAll();renderConfig();}
-  catch(e){toast('Erro: '+e.message);}
+  const nome=document.getElementById('parceiro-nome').value.trim();if(!nome){toast('Indica o nome');return;}
+  try{
+    if(editingParceiroId)await api('parceiros?id=eq.'+editingParceiroId,'PATCH',{nome});
+    else await api('parceiros','POST',{nome});
+    closeModal('modal-parceiro');toast(editingParceiroId?'Parceiro atualizado!':'Parceiro criado!');await loadAll();renderConfig();
+  }catch(e){toast('Erro: '+e.message);}
+}
+async function deleteParceiro(){
+  if(!confirm('Eliminar este parceiro? Os movimentos associados perdem a referência ao parceiro.'))return;
+  try{
+    await api('movimento_parceiros?parceiro_id=eq.'+editingParceiroId,'DELETE');
+    await api('parceiros?id=eq.'+editingParceiroId,'DELETE');
+    closeModal('modal-parceiro');toast('Parceiro eliminado');await loadAll();renderConfig();
+  }catch(e){toast('Erro: '+e.message);}
 }
 
 // ATIVO CRUD
@@ -883,6 +1025,7 @@ function openModalNovoAtivo(){
   document.getElementById('ativo-nome').value='';document.getElementById('ativo-desc').value='';
   document.getElementById('ativo-data').value=today();document.getElementById('ativo-estado').value='em_carteira';
   document.getElementById('ativo-data-venda-group').style.display='none';document.getElementById('ativo-data-venda').value='';
+  document.getElementById('ativo-previsto').value='';document.getElementById('ativo-pct-lucro').value='100';
   openModal('modal-ativo');
 }
 function editAtivo(){
@@ -894,20 +1037,21 @@ function editAtivo(){
   document.getElementById('ativo-data').value=a.data_aquisicao||'';document.getElementById('ativo-estado').value=a.estado;
   document.getElementById('ativo-data-venda-group').style.display=a.estado==='vendido'?'block':'none';
   document.getElementById('ativo-data-venda').value=a.data_venda||'';
+  document.getElementById('ativo-previsto').value=a.valor_previsto_venda||'';
+  document.getElementById('ativo-pct-lucro').value=a.percentagem_lucro||100;
   openModal('modal-ativo');
 }
 async function saveAtivo(){
-  const nome=document.getElementById('ativo-nome').value.trim();
-  if(!nome){toast('Indica o nome do ativo');return;}
+  const nome=document.getElementById('ativo-nome').value.trim();if(!nome){toast('Indica o nome');return;}
   const estado=document.getElementById('ativo-estado').value;
-  const body={nome,descricao:document.getElementById('ativo-desc').value.trim(),data_aquisicao:document.getElementById('ativo-data').value||null,estado,data_venda:estado==='vendido'?(document.getElementById('ativo-data-venda').value||null):null};
+  const body={nome,descricao:document.getElementById('ativo-desc').value.trim()||null,data_aquisicao:document.getElementById('ativo-data').value||null,estado,data_venda:estado==='vendido'?(document.getElementById('ativo-data-venda').value||null):null,valor_previsto_venda:parseFloat(document.getElementById('ativo-previsto').value)||null,percentagem_lucro:parseFloat(document.getElementById('ativo-pct-lucro').value)||100};
   try{
     if(editingAtivoId){await api('ativos?id=eq.'+editingAtivoId,'PATCH',body);closeModal('modal-ativo');toast('Ativo atualizado!');await loadAtivos(currentGrupoId);await renderAtivo();}
     else{await api('ativos','POST',{...body,grupo_id:currentGrupoId});closeModal('modal-ativo');toast('Ativo criado!');await renderAtivos();}
   }catch(e){toast('Erro: '+e.message);}
 }
-async function marcarVendido(){closeModal('modal-opcoes-ativo');try{await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'vendido',data_venda:today()});toast('Marcado como vendido');await loadAtivos(currentGrupoId);await renderAtivo();}catch(e){toast('Erro: '+e.message);}}
-async function marcarEmCarteira(){closeModal('modal-opcoes-ativo');try{await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'em_carteira',data_venda:null});toast('Marcado em carteira');await loadAtivos(currentGrupoId);await renderAtivo();}catch(e){toast('Erro: '+e.message);}}
+async function marcarVendido(){closeModal('modal-opcoes-ativo');try{await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'vendido',motivo_venda:'venda',data_venda:today()});toast('Marcado como vendido');await loadAtivos(currentGrupoId);await renderAtivo();}catch(e){toast('Erro: '+e.message);}}
+async function marcarEmCarteira(){closeModal('modal-opcoes-ativo');try{await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'em_carteira',motivo_venda:null,data_venda:null});toast('Marcado em carteira');await loadAtivos(currentGrupoId);await renderAtivo();}catch(e){toast('Erro: '+e.message);}}
 async function eliminarAtivo(){
   if(!confirm('Eliminar este ativo e todos os seus movimentos?'))return;
   closeModal('modal-opcoes-ativo');
@@ -920,7 +1064,7 @@ async function eliminarAtivo(){
   }catch(e){toast('Erro: '+e.message);}
 }
 
-// MOVIMENTO CRUD
+// MOVIMENTO CRUD + auto-venda na receita de venda
 function setTipo(tipo){
   movTipo=tipo;
   document.getElementById('tipo-custo').className='tipo-btn'+(tipo==='custo'?' active-custo':'');
@@ -929,53 +1073,33 @@ function setTipo(tipo){
 }
 function populateCategorias(tipo,selectedId){
   const sel=document.getElementById('mov-categoria');sel.innerHTML='';
-  categorias.filter(c=>c.tipo===tipo).forEach(c=>{
-    const o=document.createElement('option');o.value=c.id;o.textContent=c.nome;
-    if(selectedId&&c.id===selectedId)o.selected=true;
-    sel.appendChild(o);
-  });
+  categorias.filter(c=>c.tipo===tipo).forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.nome;if(selectedId&&c.id===selectedId)o.selected=true;sel.appendChild(o);});
 }
 function openModalMovimento(tipo,movId){
   editingMovId=movId;movParceiros=[];
   if(movId){
     const m=movimentos.find(m=>m.id===movId);if(!m)return;
-    movTipo=m.tipo;
-    document.getElementById('modal-mov-title').textContent='Editar Movimento';
+    movTipo=m.tipo;document.getElementById('modal-mov-title').textContent='Editar Movimento';
     setTipo(m.tipo);populateCategorias(m.tipo,m.categoria_id);
-    document.getElementById('mov-valor').value=m.valor;
-    document.getElementById('mov-proprio').value=m.valor_proprio!=null?m.valor_proprio:m.valor;
-    document.getElementById('mov-data').value=m.data;
-    document.getElementById('mov-desc').value=m.descricao||'';
-    if(m.movimento_parceiros&&m.movimento_parceiros.length>0)
-      movParceiros=m.movimento_parceiros.map(mp=>({parceiro_id:mp.parceiro_id,nome:mp.parceiros?mp.parceiros.nome:'?',valor:mp.valor}));
+    document.getElementById('mov-valor').value=m.valor;document.getElementById('mov-proprio').value=m.valor_proprio!=null?m.valor_proprio:m.valor;
+    document.getElementById('mov-data').value=m.data;document.getElementById('mov-desc').value=m.descricao||'';
+    if(m.movimento_parceiros&&m.movimento_parceiros.length>0)movParceiros=m.movimento_parceiros.map(mp=>({parceiro_id:mp.parceiro_id,nome:mp.parceiros?mp.parceiros.nome:'?',valor:mp.valor}));
   } else {
-    movTipo=tipo;
-    document.getElementById('modal-mov-title').textContent=tipo==='custo'?'Registar Custo':'Registar Receita';
-    setTipo(tipo);
-    document.getElementById('mov-valor').value='';document.getElementById('mov-proprio').value='';
-    document.getElementById('mov-data').value=today();document.getElementById('mov-desc').value='';
+    movTipo=tipo;document.getElementById('modal-mov-title').textContent=tipo==='custo'?'Registar Custo':'Registar Receita';
+    setTipo(tipo);document.getElementById('mov-valor').value='';document.getElementById('mov-proprio').value='';document.getElementById('mov-data').value=today();document.getElementById('mov-desc').value='';
   }
-  renderParticipacoes();document.getElementById('diff-bar').style.display='none';updateDiff();
-  openModal('modal-movimento');
+  renderParticipacoes();document.getElementById('diff-bar').style.display='none';updateDiff();openModal('modal-movimento');
 }
 function editMovimento(id){openModalMovimento(null,id);}
 async function saveMovimento(){
-  const valor=parseFloat(document.getElementById('mov-valor').value);
-  const proprio=parseFloat(document.getElementById('mov-proprio').value);
-  const catId=document.getElementById('mov-categoria').value;
-  const data=document.getElementById('mov-data').value;
+  const valor=parseFloat(document.getElementById('mov-valor').value);const proprio=parseFloat(document.getElementById('mov-proprio').value);
+  const catId=document.getElementById('mov-categoria').value;const data=document.getElementById('mov-data').value;
   if(!valor||valor<=0){toast('Indica um valor válido');return;}
   if(isNaN(proprio)||proprio<0){toast('Indica a tua parte');return;}
-  if(!catId){toast('Seleciona uma categoria');return;}
-  if(!data){toast('Indica a data');return;}
+  if(!catId){toast('Seleciona uma categoria');return;}if(!data){toast('Indica a data');return;}
   let soma=proprio;const partsData=[];
-  for(const p of movParceiros){
-    const inp=document.getElementById('pinp-'+p.parceiro_id);
-    const v=parseFloat(inp?inp.value:0)||0;
-    if(v<=0){toast('Indica o valor de '+p.nome);return;}
-    soma+=v;partsData.push({parceiro_id:p.parceiro_id,valor:v});
-  }
-  if(Math.abs(soma-valor)>0.01){toast('A soma ('+fmt(soma)+') não coincide com o total ('+fmt(valor)+')');return;}
+  for(const p of movParceiros){const inp=document.getElementById('pinp-'+p.parceiro_id);const v=parseFloat(inp?inp.value:0)||0;if(v<=0){toast('Indica o valor de '+p.nome);return;}soma+=v;partsData.push({parceiro_id:p.parceiro_id,valor:v});}
+  if(Math.abs(soma-valor)>0.01){toast('A soma não coincide com o total');return;}
   try{
     if(editingMovId){
       await api('movimentos?id=eq.'+editingMovId,'PATCH',{categoria_id:parseInt(catId),tipo:movTipo,valor,valor_proprio:proprio,data,descricao:document.getElementById('mov-desc').value.trim()||null});
@@ -985,25 +1109,56 @@ async function saveMovimento(){
     } else {
       const[mov]=await api('movimentos','POST',{ativo_id:currentAtivoId,categoria_id:parseInt(catId),tipo:movTipo,valor,valor_proprio:proprio,data,descricao:document.getElementById('mov-desc').value.trim()||null});
       for(const p of partsData)await api('movimento_parceiros','POST',{movimento_id:mov.id,parceiro_id:p.parceiro_id,valor:p.valor});
-      toast('Guardado!');
+      // Auto-venda: se o tipo é receita e a categoria se chama "Venda", marcar ativo como vendido
+      const cat=categorias.find(c=>c.id===parseInt(catId));
+      if(movTipo==='receita'&&cat&&cat.nome.toLowerCase().includes('venda')){
+        await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'vendido',motivo_venda:'venda',data_venda:data});
+        toast('Guardado! Ativo marcado como vendido.');
+      } else {toast('Guardado!');}
     }
-    closeModal('modal-movimento');await renderAtivo();
+    closeModal('modal-movimento');await loadAtivos(currentGrupoId);await renderAtivo();
   }catch(e){toast('Erro: '+e.message);}
 }
 async function deleteMovimento(id){
   if(!confirm('Eliminar este movimento?'))return;
-  try{await api('movimento_parceiros?movimento_id=eq.'+id,'DELETE');await api('movimentos?id=eq.'+id,'DELETE');toast('Eliminado');await renderAtivo();}
-  catch(e){toast('Erro: '+e.message);}
+  try{await api('movimento_parceiros?movimento_id=eq.'+id,'DELETE');await api('movimentos?id=eq.'+id,'DELETE');toast('Eliminado');await renderAtivo();}catch(e){toast('Erro: '+e.message);}
 }
 
 // CATEGORIA CRUD
 function setCatTipo(tipo){catTipo=tipo;document.getElementById('cat-tipo-custo').className='tipo-btn'+(tipo==='custo'?' active-custo':'');document.getElementById('cat-tipo-receita').className='tipo-btn'+(tipo==='receita'?' active-receita':'');}
-function openModalNovaCategoria(){document.getElementById('cat-nome').value='';catTipo='custo';document.getElementById('cat-tipo-custo').className='tipo-btn active-custo';document.getElementById('cat-tipo-receita').className='tipo-btn';openModal('modal-categoria');}
+function openModalCategoria(id){
+  editingCatId=id;
+  if(id){
+    const c=categorias.find(c=>c.id===id);
+    document.getElementById('modal-cat-title').textContent='Editar Categoria';
+    document.getElementById('cat-nome').value=c.nome;catTipo=c.tipo;
+    document.getElementById('cat-tipo-custo').className='tipo-btn'+(c.tipo==='custo'?' active-custo':'');
+    document.getElementById('cat-tipo-receita').className='tipo-btn'+(c.tipo==='receita'?' active-receita':'');
+    document.getElementById('btn-del-cat').style.display='block';
+  } else {
+    document.getElementById('modal-cat-title').textContent='Nova Categoria';
+    document.getElementById('cat-nome').value='';catTipo='custo';
+    document.getElementById('cat-tipo-custo').className='tipo-btn active-custo';
+    document.getElementById('cat-tipo-receita').className='tipo-btn';
+    document.getElementById('btn-del-cat').style.display='none';
+  }
+  openModal('modal-categoria');
+}
 async function saveCategoria(){
-  const nome=document.getElementById('cat-nome').value.trim();
-  if(!nome){toast('Indica o nome');return;}
-  try{await api('categorias','POST',{nome,tipo:catTipo});closeModal('modal-categoria');toast('Categoria criada!');await loadAll();renderConfig();}
-  catch(e){toast('Erro: '+e.message);}
+  const nome=document.getElementById('cat-nome').value.trim();if(!nome){toast('Indica o nome');return;}
+  try{
+    // Editar atualiza automaticamente todos os movimentos (ligados por ID)
+    if(editingCatId)await api('categorias?id=eq.'+editingCatId,'PATCH',{nome,tipo:catTipo});
+    else await api('categorias','POST',{nome,tipo:catTipo});
+    closeModal('modal-categoria');toast(editingCatId?'Categoria atualizada!':'Categoria criada!');await loadAll();renderConfig();
+  }catch(e){toast('Erro: '+e.message);}
+}
+async function deleteCategoria(){
+  // Verificar se existem movimentos com esta categoria
+  const movs=await api('movimentos?categoria_id=eq.'+editingCatId+'&select=id&limit=1');
+  if(movs.length>0){toast('Não é possível eliminar: existem movimentos associados a esta categoria.');return;}
+  if(!confirm('Eliminar esta categoria?'))return;
+  try{await api('categorias?id=eq.'+editingCatId,'DELETE');closeModal('modal-categoria');toast('Categoria eliminada');await loadAll();renderConfig();}catch(e){toast('Erro: '+e.message);}
 }
 
 tryAutoLogin();
