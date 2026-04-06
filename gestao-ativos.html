@@ -527,26 +527,24 @@ async function renderDashboard(){
     let investidoCarteira=0,lucroPrevistoTotal=0,balancoTotal=0;
     let emCarteiraCount=0;
 
-    // Calcular custo por ativo (em carteira)
-    const custosPorAtivo={};const receitasPorAtivo={};
+
     movAll.forEach(m=>{
       const aid=m.ativos?m.ativos.id:null;
       // Precisamos do ativo_id — buscar separado
     });
 
-    // Abordagem direta por ativo
     const movPorAtivo=await api('movimentos?select=tipo,valor,valor_proprio,ativo_id');
+    const meuCustoPorAtivo={};const minhaReceitaPorAtivo={};
     movPorAtivo.forEach(m=>{
-      if(!custosPorAtivo[m.ativo_id])custosPorAtivo[m.ativo_id]=0;
-      if(!receitasPorAtivo[m.ativo_id])receitasPorAtivo[m.ativo_id]=0;
-      if(m.tipo==='custo')custosPorAtivo[m.ativo_id]+=parseFloat(m.valor);
-      else receitasPorAtivo[m.ativo_id]+=parseFloat(m.valor);
+      if(!meuCustoPorAtivo[m.ativo_id])meuCustoPorAtivo[m.ativo_id]=0;
+      if(!minhaReceitaPorAtivo[m.ativo_id])minhaReceitaPorAtivo[m.ativo_id]=0;
+      if(m.tipo==='custo')meuCustoPorAtivo[m.ativo_id]+=vpOf(m);
+      else minhaReceitaPorAtivo[m.ativo_id]+=vpOf(m);
     });
 
     ativosAll.forEach(a=>{
-      const custo=custosPorAtivo[a.id]||0;const receita=receitasPorAtivo[a.id]||0;
-      const resultado=receita-custo;
-      balancoTotal+=resultado;
+      const custo=meuCustoPorAtivo[a.id]||0;const receita=minhaReceitaPorAtivo[a.id]||0;
+      balancoTotal+=receita-custo;
       if(a.estado==='em_carteira'){
         emCarteiraCount++;
         investidoCarteira+=custo;
@@ -559,9 +557,9 @@ async function renderDashboard(){
 
     document.getElementById('dash-stats').innerHTML=`
       <div class="stat-card"><div class="stat-label">Em carteira</div><div class="stat-val blue">${emCarteiraCount}</div></div>
-      <div class="stat-card"><div class="stat-label">Investido</div><div class="stat-val amber">${fmt(investidoCarteira)}</div></div>
-      <div class="stat-card"><div class="stat-label">Lucro previsto</div><div class="stat-val ${lucroPrevistoTotal>=0?'green':'red'}">${fmt(lucroPrevistoTotal)}</div></div>
-      <div class="stat-card"><div class="stat-label">Balanço total</div><div class="stat-val ${balancoTotal>=0?'green':'red'}">${fmt(balancoTotal)}</div></div>`;
+      <div class="stat-card"><div class="stat-label">Meu investido</div><div class="stat-val amber">${fmt(investidoCarteira)}</div></div>
+      <div class="stat-card"><div class="stat-label">Meu lucro previsto</div><div class="stat-val ${lucroPrevistoTotal>=0?'green':'red'}">${fmt(lucroPrevistoTotal)}</div></div>
+      <div class="stat-card"><div class="stat-label">Meu balanço total</div><div class="stat-val ${balancoTotal>=0?'green':'red'}">${fmt(balancoTotal)}</div></div>`;
 
     if(!grupos.length){document.getElementById('dash-grupos').innerHTML='<div class="empty"><div class="empty-icon">📁</div><div class="empty-text">Ainda não tens grupos.<br>Vai a Configurações para criar o primeiro.</div></div>';return;}
 
@@ -571,7 +569,7 @@ async function renderDashboard(){
       const agCarteira=ag.filter(a=>a.estado==='em_carteira');
       let gInvestido=0,gLucroPrevisto=0,gBalanco=0;
       ag.forEach(a=>{
-        const custo=custosPorAtivo[a.id]||0;const receita=receitasPorAtivo[a.id]||0;
+        const custo=meuCustoPorAtivo[a.id]||0;const receita=minhaReceitaPorAtivo[a.id]||0;
         gBalanco+=receita-custo;
         if(a.estado==='em_carteira'){
           gInvestido+=custo;
