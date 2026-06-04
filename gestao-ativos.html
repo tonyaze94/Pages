@@ -63,7 +63,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ativo-estado{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
 .ativo-estado.em_carteira{background:var(--blue-bg);color:var(--blue);}
 .ativo-estado.vendido{background:var(--green-bg);color:var(--green);}
-.ativo-nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
+.ativo-nums{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
 .ativo-num{background:var(--bg3);border-radius:var(--radius-sm);padding:7px;text-align:center;}
 .ativo-num-val{font-size:11px;font-weight:600;font-family:'DM Mono',monospace;}
 .ativo-num-label{font-size:9px;color:var(--text2);margin-top:1px;}
@@ -110,6 +110,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .part-input{width:110px;padding:8px 10px;font-size:14px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Mono',monospace;text-align:right;}
 .part-input:focus{outline:none;border-color:var(--blue);}
 .part-del{background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:0 0 0 8px;line-height:1;}
+.ativo-parceiros-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:.85rem;}
+.ativo-parceiro-row{display:grid;grid-template-columns:auto 1fr 86px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+.ativo-parceiro-row:last-child{border-bottom:none;}
+.ativo-parceiro-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--green);}
+.ativo-parceiro-nome{font-size:13px;color:var(--text);}
+.pct-input{width:86px;padding:8px 9px;font-size:13px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Mono',monospace;text-align:right;}
+.pct-input:disabled{opacity:.35;}
+.pct-resumo{font-size:11px;color:var(--text2);margin-top:8px;font-family:'DM Mono',monospace;}
 .diff-bar{margin-top:10px;padding:7px 10px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;text-align:center;font-family:'DM Mono',monospace;}
 .diff-ok{background:var(--green-bg);color:var(--green);}
 .diff-err{background:var(--red-bg);color:var(--red);}
@@ -157,6 +165,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .legend-label{font-size:12px;color:var(--text2);flex:1;}
 .legend-val{font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text);}
 .legend-pct{font-size:11px;color:var(--text3);margin-left:4px;}
+.period-toggle{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:.75rem;}
+.period-btn{padding:9px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+.period-btn.active{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+.line-chart-wrap{overflow:hidden;}
+.line-chart{width:100%;height:auto;display:block;}
+.axis-label{font-size:10px;fill:var(--text3);font-family:'DM Sans',sans-serif;}
+.chart-grid{stroke:rgba(255,255,255,.08);stroke-width:1;}
+.chart-axis{stroke:var(--border2);stroke-width:1;}
+.chart-line{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+.chart-point{stroke:var(--bg2);stroke-width:2;}
+.chart-summary{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:.75rem;}
 
 /* INFO BOX */
 .info-box{background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;color:var(--amber);margin-bottom:.85rem;line-height:1.5;}
@@ -240,6 +259,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div style="display:flex;gap:8px;margin-bottom:.75rem;">
         <button class="btn btn-red" style="flex:1;padding:10px;" onclick="openModalMovimento('custo',null)">− Custo</button>
         <button class="btn" style="flex:1;padding:10px;background:var(--green-bg);color:var(--green);border:1px solid var(--green);" onclick="openModalMovimento('receita',null)">+ Receita</button>
+        <button class="btn btn-purple" style="flex:1;padding:10px;" onclick="iniciarTroca()">Troca</button>
       </div>
       <div class="section-title">Movimentos</div>
       <div id="ativo-movimentos"></div>
@@ -283,6 +303,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="grupo-nome" placeholder="Ex: Carros, Motas"></div>
     <div class="form-group"><label class="form-label">Descrição (opcional)</label><input class="form-input" id="grupo-desc"></div>
     <button class="btn btn-green" onclick="saveGrupo()">Guardar</button>
+    <button class="btn btn-red" id="btn-del-grupo" style="margin-top:8px;display:none;" onclick="deleteGrupo()">Eliminar grupo</button>
     <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('modal-grupo')">Cancelar</button>
   </div>
 </div>
@@ -316,7 +337,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <input class="form-input" type="date" id="ativo-data-venda">
     </div>
     <div class="form-group"><label class="form-label">Valor previsto de venda (€)</label><input class="form-input" type="number" id="ativo-previsto" placeholder="0.00" min="0" step="0.01" inputmode="decimal"></div>
-    <div class="form-group"><label class="form-label">Minha % do lucro previsto</label><input class="form-input" type="number" id="ativo-pct-lucro" placeholder="100" min="0" max="100" step="1" inputmode="decimal"></div>
+    <div class="form-group"><label class="form-label">Minha % do lucro previsto</label><input class="form-input" type="number" id="ativo-pct-lucro" placeholder="100" min="0" max="100" step="1" inputmode="decimal" oninput="updateAtivoPctResumo()"></div>
+    <div class="ativo-parceiros-box">
+      <div class="divisao-header"><span class="divisao-title">Parceiros do ativo</span><button class="btn-sm" onclick="dividirRestanteParceiros()">Dividir restante</button></div>
+      <div id="ativo-parceiros-lista"></div>
+      <div class="pct-resumo" id="ativo-pct-resumo"></div>
+    </div>
     <button class="btn btn-green" onclick="saveAtivo()">Guardar</button>
     <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('modal-ativo')">Cancelar</button>
   </div>
@@ -330,7 +356,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <button class="tipo-btn active-custo" id="tipo-custo" onclick="setTipo('custo')">− Custo</button>
       <button class="tipo-btn" id="tipo-receita" onclick="setTipo('receita')">+ Receita</button>
     </div>
-    <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="mov-categoria"></select></div>
+    <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="mov-categoria" onchange="onCategoriaChange()"></select></div>
     <div class="row2">
       <div class="form-group"><label class="form-label">Valor total (€)</label><input class="form-input" type="number" id="mov-valor" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="onValorChange()"></div>
       <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="date" id="mov-data"></div>
@@ -338,7 +364,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="form-group"><label class="form-label">Descrição (opcional)</label><textarea class="form-textarea" id="mov-desc"></textarea></div>
     <div class="divisao-box">
       <div class="divisao-header"><span class="divisao-title">Divisão do valor</span><button class="btn-sm" onclick="openAddParceiro()">+ Parceiro</button></div>
-      <div class="proprio-row"><span class="proprio-label">A minha parte</span><input type="number" class="proprio-input" id="mov-proprio" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="updateDiff()"></div>
+      <div class="proprio-row"><span class="proprio-label">A minha parte</span><input type="number" class="proprio-input" id="mov-proprio" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="onMovProprioInput()"></div>
       <div id="participacoes-lista"></div>
       <div class="diff-bar" id="diff-bar" style="display:none;"></div>
     </div>
@@ -414,14 +440,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <script>
 const SUPABASE_URL='https://pnnkbrwmkgqartysvojh.supabase.co';
 const SUPABASE_KEY='sb_publishable_pSZDG-UzctxRVU-wmY7mfA_ghtA9MaA';
-let authToken=null,grupos=[],categorias=[],parceiros=[],ativos=[],movimentos=[];
+let authToken=null,grupos=[],categorias=[],parceiros=[],ativos=[],movimentos=[],ativoParceiros=[];
 let currentGrupoId=null,currentAtivoId=null,screenStack=['dashboard'];
 let movTipo='custo',catTipo='custo',movParceiros=[];
+let analisePeriodo='sempre',scrollPositions={ativos:0};
 let editingGrupoId=null,editingAtivoId=null,editingMovId=null,editingParceiroId=null,editingCatId=null;
 let vendidosOffset=0;const VENDIDOS_PAGE=10;
 
 const api=async(path,method='GET',body=null)=>{
-  const h={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(authToken||SUPABASE_KEY),'Content-Type':'application/json'};
+  if(!authToken)throw new Error('Sessão expirada. Faz login novamente.');
+  const h={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+authToken,'Content-Type':'application/json'};
   if(method==='POST')h['Prefer']='return=representation';
   const opts={method,headers:h};if(body)opts.body=JSON.stringify(body);
   const r=await fetch(SUPABASE_URL+'/rest/v1/'+path,opts);
@@ -439,6 +467,27 @@ function fmt(v){if(v===null||v===undefined||isNaN(v))return'—';return new Intl
 function fmtDate(d){if(!d)return'';const[y,m,dd]=d.split('-');return dd+'/'+m+'/'+y;}
 function today(){return new Date().toISOString().slice(0,10);}
 function vpOf(m){return parseFloat(m.valor_proprio!=null?m.valor_proprio:m.valor);}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function jsArg(v){return String(v??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r?\n/g,' ');}
+function numOrNull(v){const n=parseFloat(v);return Number.isFinite(n)?n:null;}
+function pctOrDefault(v){const n=parseFloat(v);return Number.isFinite(n)?n:100;}
+function lucroPrevisto(a,custoTotal){
+  const previsto=numOrNull(a?.valor_previsto_venda);
+  const pct=pctOrDefault(a?.percentagem_lucro);
+  return previsto===null?null:(previsto-custoTotal)*(pct/100);
+}
+function round2(v){return Math.round((parseFloat(v)||0)*100)/100;}
+async function loadAtivoParceiros(aid){
+  if(!aid)return[];
+  const rows=await api('ativo_parceiros?ativo_id=eq.'+aid+'&select=*,parceiros(nome)&order=id');
+  return rows.map(r=>({parceiro_id:parseInt(r.parceiro_id),nome:r.parceiros?r.parceiros.nome:'?',percentagem_lucro:round2(r.percentagem_lucro)}));
+}
+async function saveAtivoParceiros(aid,rows){
+  const clean=rows.filter(r=>r.parceiro_id).map(r=>({parceiro_id:parseInt(r.parceiro_id),percentagem_lucro:round2(r.percentagem_lucro)}));
+  await api('ativo_parceiros?ativo_id=eq.'+aid,'DELETE');
+  for(const r of clean)await api('ativo_parceiros','POST',{ativo_id:aid,parceiro_id:r.parceiro_id,percentagem_lucro:r.percentagem_lucro});
+}
+function getPctProprio(){return Math.min(100,Math.max(0,pctOrDefault(document.getElementById('ativo-pct-lucro').value)));}
 function toggleDataVenda(){document.getElementById('ativo-data-venda-group').style.display=document.getElementById('ativo-estado').value==='vendido'?'block':'none';}
 
 // AUTH
@@ -450,12 +499,18 @@ async function doLogin(){
   btn.textContent='A entrar...';btn.disabled=true;
   const data=await authApi('token?grant_type=password',{email,password:pass});
   btn.textContent='Entrar';btn.disabled=false;
-  if(data.access_token){authToken=data.access_token;localStorage.setItem('ga_token',authToken);localStorage.setItem('ga_email',email);showApp(email);}
+  if(data.access_token){authToken=data.access_token;clearClientStorage();showApp(email);}
   else{errEl.textContent='Email ou password incorretos.';errEl.style.display='block';}
 }
 function showApp(email){document.getElementById('login-screen').style.display='none';document.getElementById('app-screen').style.display='block';document.getElementById('user-label').textContent=email.split('@')[0];renderDashboard();}
-function doLogout(){if(!confirm('Terminar sessão?'))return;authToken=null;localStorage.removeItem('ga_token');localStorage.removeItem('ga_email');document.getElementById('app-screen').style.display='none';document.getElementById('login-screen').style.display='block';document.getElementById('login-pass').value='';}
-function tryAutoLogin(){const t=localStorage.getItem('ga_token');const e=localStorage.getItem('ga_email');if(t&&e){authToken=t;showApp(e);}}
+function clearClientStorage(){
+  try{
+    localStorage.removeItem('ga_token');localStorage.removeItem('ga_email');localStorage.removeItem('ga_ativo_parceiros');
+    sessionStorage.removeItem('ga_token');sessionStorage.removeItem('ga_email');sessionStorage.removeItem('ga_ativo_parceiros');
+  }catch(e){}
+}
+function doLogout(){if(!confirm('Terminar sessão?'))return;authToken=null;clearClientStorage();document.getElementById('app-screen').style.display='none';document.getElementById('login-screen').style.display='block';document.getElementById('login-pass').value='';}
+function initSecurity(){clearClientStorage();authToken=null;}
 document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('login-email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
 
@@ -468,11 +523,11 @@ function navigate(screen,btn){
   if(screen==='analise')renderAnalise();if(screen==='config')renderConfig();if(screen==='dashboard')renderDashboard();
 }
 function goTo(screen){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+screen).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));screenStack.push(screen);}
-function goBack(){
+async function goBack(){
   screenStack.pop();const prev=screenStack[screenStack.length-1]||'dashboard';
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+prev).classList.add('active');
   if(prev==='dashboard'){document.querySelector('[data-nav="dashboard"]').classList.add('active');renderDashboard();}
-  if(prev==='ativos')renderAtivos();
+  if(prev==='ativos'){await renderAtivos();requestAnimationFrame(()=>window.scrollTo(0,scrollPositions.ativos||0));}
 }
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
@@ -483,8 +538,81 @@ async function loadAll(){[grupos,categorias,parceiros]=await Promise.all([api('g
 async function loadAtivos(gid){ativos=await api('ativos?grupo_id=eq.'+gid+'&select=*&order=estado.asc,data_aquisicao.asc');}
 async function loadMovimentos(aid){movimentos=await api('movimentos?ativo_id=eq.'+aid+'&order=data.desc,criado_em.desc&select=*,categorias(nome),movimento_parceiros(*,parceiros(nome))');}
 
+// PARCEIROS DO ATIVO
+function renderAtivoParceirosEditor(){
+  const lista=document.getElementById('ativo-parceiros-lista');
+  if(!lista)return;
+  if(!parceiros.length){
+    lista.innerHTML='<div style="color:var(--text2);font-size:13px;">Nenhum parceiro criado.</div>';
+    updateAtivoPctResumo();
+    return;
+  }
+  lista.innerHTML=parceiros.map(p=>{
+    const sel=ativoParceiros.find(ap=>ap.parceiro_id===p.id);
+    return `<div class="ativo-parceiro-row">
+      <input type="checkbox" ${sel?'checked':''} onchange="toggleAtivoParceiro(${p.id},'${jsArg(p.nome)}',this.checked)">
+      <span class="ativo-parceiro-nome">${esc(p.nome)}</span>
+      <input class="pct-input" type="number" min="0" max="100" step="1" value="${sel?sel.percentagem_lucro:''}" ${sel?'':'disabled'} oninput="setAtivoParceiroPct(${p.id},this.value)" placeholder="%">
+    </div>`;
+  }).join('');
+  updateAtivoPctResumo();
+}
+function toggleAtivoParceiro(id,nome,checked){
+  if(checked){
+    if(!ativoParceiros.some(p=>p.parceiro_id===id))ativoParceiros.push({parceiro_id:id,nome,percentagem_lucro:0});
+    dividirRestanteParceiros(false);
+  }else ativoParceiros=ativoParceiros.filter(p=>p.parceiro_id!==id);
+  renderAtivoParceirosEditor();
+}
+function setAtivoParceiroPct(id,val){
+  const p=ativoParceiros.find(p=>p.parceiro_id===id);
+  if(p)p.percentagem_lucro=Math.min(100,Math.max(0,numOrNull(val)??0));
+  updateAtivoPctResumo();
+}
+function dividirRestanteParceiros(rerender=true){
+  if(!ativoParceiros.length){updateAtivoPctResumo();return;}
+  const rem=Math.max(0,100-getPctProprio());
+  const cada=round2(rem/ativoParceiros.length);
+  let acumulado=0;
+  ativoParceiros.forEach((p,i)=>{p.percentagem_lucro=i===ativoParceiros.length-1?round2(rem-acumulado):cada;acumulado+=p.percentagem_lucro;});
+  if(rerender)renderAtivoParceirosEditor();else updateAtivoPctResumo();
+}
+function updateAtivoPctResumo(){
+  const el=document.getElementById('ativo-pct-resumo');if(!el)return;
+  const meu=getPctProprio();
+  const parceirosPct=ativoParceiros.reduce((s,p)=>s+(parseFloat(p.percentagem_lucro)||0),0);
+  const total=round2(meu+parceirosPct);
+  el.textContent='Total lucro: '+total.toFixed(2)+'%';
+  el.style.color=Math.abs(total-100)<0.01?'var(--green)':'var(--amber)';
+}
+
 // DIVISÃO UI
-function onValorChange(){const total=parseFloat(document.getElementById('mov-valor').value)||0;if(movParceiros.length===0)document.getElementById('mov-proprio').value=total>0?total.toFixed(2):'';updateDiff();}
+function onValorChange(){
+  const total=parseFloat(document.getElementById('mov-valor').value)||0;
+  if(isVendaMovimento())applyVendaAutoDistribution();
+  else if(movParceiros.length===0)document.getElementById('mov-proprio').value=total>0?total.toFixed(2):'';
+  else autoBalanceMovement(null);
+  updateDiff();
+}
+function onMovProprioInput(){if(!isVendaMovimento())autoBalanceMovement('proprio');updateDiff();}
+function onPartnerValorInput(id){if(!isVendaMovimento())autoBalanceMovement('p'+id);updateDiff();}
+function autoBalanceMovement(changedKey){
+  const total=parseFloat(document.getElementById('mov-valor').value)||0;
+  if(total<=0||!movParceiros.length)return;
+  const fields=[{key:'proprio',el:document.getElementById('mov-proprio')}].concat(movParceiros.map(p=>({key:'p'+p.parceiro_id,el:document.getElementById('pinp-'+p.parceiro_id)}))).filter(f=>f.el);
+  const changed=fields.find(f=>f.key===changedKey);
+  if(fields.length===2&&changed){
+    const other=fields.find(f=>f.key!==changed.key);
+    const rem=round2(total-(parseFloat(changed.el.value)||0));
+    if(other)other.el.value=rem>0?rem.toFixed(2):'0.00';
+    return;
+  }
+  const empty=fields.filter(f=>f.key!==changedKey&&f.el.value==='');
+  if(empty.length===1){
+    const soma=fields.filter(f=>f.key!==empty[0].key).reduce((s,f)=>s+(parseFloat(f.el.value)||0),0);
+    empty[0].el.value=Math.max(0,round2(total-soma)).toFixed(2);
+  }
+}
 function updateDiff(){
   const total=parseFloat(document.getElementById('mov-valor').value)||0;const proprio=parseFloat(document.getElementById('mov-proprio').value)||0;
   let soma=proprio;movParceiros.forEach(p=>{const inp=document.getElementById('pinp-'+p.parceiro_id);if(inp)soma+=parseFloat(inp.value)||0;});
@@ -497,8 +625,8 @@ function updateDiff(){
 }
 function renderParticipacoes(){
   document.getElementById('participacoes-lista').innerHTML=movParceiros.map(p=>`
-    <div class="part-row"><span class="part-nome">${p.nome}</span>
-    <input type="number" class="part-input" id="pinp-${p.parceiro_id}" value="${p.valor}" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="updateDiff()">
+    <div class="part-row"><span class="part-nome">${esc(p.nome)}</span>
+    <input type="number" class="part-input" id="pinp-${p.parceiro_id}" value="${p.valor}" placeholder="0.00" min="0" step="0.01" inputmode="decimal" oninput="onPartnerValorInput(${p.parceiro_id})">
     <button class="part-del" onclick="removeParceiro(${p.parceiro_id})">×</button></div>`).join('');
   updateDiff();
 }
@@ -506,20 +634,84 @@ function openAddParceiro(){
   const ja=movParceiros.map(p=>p.parceiro_id);const disp=parceiros.filter(p=>!ja.includes(p.id));
   if(!disp.length){toast('Todos os parceiros já adicionados');return;}
   document.getElementById('lista-parceiros-sel').innerHTML=disp.map(p=>`
-    <div class="card-sm" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;" onclick="addParceiroMov(${p.id},'${p.nome.replace(/'/g,"\\'")}')">
-      <span style="font-size:15px;">${p.nome}</span><span style="font-size:22px;color:var(--green);">+</span></div>`).join('');
+    <div class="card-sm" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;" onclick="addParceiroMov(${p.id},'${jsArg(p.nome)}')">
+      <span style="font-size:15px;">${esc(p.nome)}</span><span style="font-size:22px;color:var(--green);">+</span></div>`).join('');
   openModal('modal-add-parceiro');
 }
 function addParceiroMov(id,nome){movParceiros.push({parceiro_id:id,nome,valor:''});renderParticipacoes();closeModal('modal-add-parceiro');}
 function removeParceiro(id){movParceiros=movParceiros.filter(p=>p.parceiro_id!==id);renderParticipacoes();}
+
+function isVendaMovimento(){
+  if(movTipo!=='receita')return false;
+  const catId=parseInt(document.getElementById('mov-categoria')?.value||0);
+  const cat=categorias.find(c=>c.id===catId);
+  return !!(cat&&cat.nome&&cat.nome.toLowerCase().includes('venda'));
+}
+function onCategoriaChange(){if(isVendaMovimento())applyVendaAutoDistribution();else updateDiff();}
+function ensureMovParceirosFromAtivo(rows){
+  rows.forEach(ap=>{if(!movParceiros.some(p=>p.parceiro_id===ap.parceiro_id))movParceiros.push({parceiro_id:ap.parceiro_id,nome:ap.nome,valor:''});});
+}
+function buildParticipantSnapshot(movs,ativo,ativoParts){
+  const myPct=pctOrDefault(ativo?.percentagem_lucro);
+  const map={proprio:{key:'proprio',nome:'A minha parte',pct:myPct,custo:0,receita:0}};
+  ativoParts.forEach(ap=>{map['p'+ap.parceiro_id]={key:'p'+ap.parceiro_id,parceiro_id:ap.parceiro_id,nome:ap.nome,pct:round2(ap.percentagem_lucro),custo:0,receita:0};});
+  movs.forEach(m=>{
+    const tipo=m.tipo==='custo'?'custo':'receita';
+    map.proprio[tipo]+=vpOf(m);
+    (m.movimento_parceiros||[]).forEach(mp=>{
+      const key='p'+mp.parceiro_id;
+      if(!map[key])map[key]={key,parceiro_id:mp.parceiro_id,nome:mp.parceiros?mp.parceiros.nome:'?',pct:0,custo:0,receita:0};
+      map[key][tipo]+=parseFloat(mp.valor)||0;
+    });
+  });
+  const partners=Object.values(map).filter(p=>p.key!=='proprio');
+  const knownPartnerPct=partners.reduce((s,p)=>s+(parseFloat(p.pct)||0),0);
+  const missing=partners.filter(p=>!p.pct);
+  if(missing.length&&knownPartnerPct+myPct<100){
+    const cada=round2((100-myPct-knownPartnerPct)/missing.length);
+    missing.forEach((p,i)=>p.pct=i===missing.length-1?round2(100-myPct-knownPartnerPct-cada*(missing.length-1)):cada);
+  }
+  return Object.values(map);
+}
+function distributeByPct(total,participants){
+  const pctTotal=participants.reduce((s,p)=>s+(parseFloat(p.pct)||0),0)||participants.length;
+  const vals={};let soma=0;
+  participants.forEach((p,i)=>{
+    const raw=pctTotal===participants.length?total/participants.length:total*((parseFloat(p.pct)||0)/pctTotal);
+    vals[p.key]=i===participants.length-1?round2(total-soma):round2(raw);
+    soma+=vals[p.key];
+  });
+  return vals;
+}
+async function applyVendaAutoDistribution(){
+  const valor=parseFloat(document.getElementById('mov-valor').value)||0;
+  if(valor<=0||editingMovId)return;
+  const ativo=ativos.find(a=>a.id===currentAtivoId);
+  const ativoParts=await loadAtivoParceiros(currentAtivoId);
+  ensureMovParceirosFromAtivo(ativoParts);
+  const participantes=buildParticipantSnapshot(movimentos,ativo,ativoParts);
+  participantes.filter(p=>p.key!=='proprio').forEach(p=>{if(!movParceiros.some(mp=>mp.parceiro_id===p.parceiro_id))movParceiros.push({parceiro_id:p.parceiro_id,nome:p.nome,valor:''});});
+  renderParticipacoes();
+  const custoTotal=participantes.reduce((s,p)=>s+p.custo,0);
+  const lucro=valor-custoTotal;
+  const lucroDist=distributeByPct(lucro,participantes);
+  const receita={};let soma=0;
+  participantes.forEach((p,i)=>{
+    receita[p.key]=i===participantes.length-1?round2(valor-soma):round2(p.custo+lucroDist[p.key]);
+    soma+=receita[p.key];
+  });
+  document.getElementById('mov-proprio').value=Math.max(0,receita.proprio||0).toFixed(2);
+  movParceiros.forEach(p=>{const inp=document.getElementById('pinp-'+p.parceiro_id);if(inp)inp.value=Math.max(0,receita['p'+p.parceiro_id]||0).toFixed(2);});
+  updateDiff();
+}
 
 // DASHBOARD
 async function renderDashboard(){
   document.getElementById('dash-grupos').innerHTML='<div class="loading">A carregar<span class="dot-anim"></span></div>';
   try{
     await loadAll();
-    const[movAll,ativosAll]=await Promise.all([
-      api('movimentos?select=tipo,valor,valor_proprio,ativos(grupo_id,estado,valor_previsto_venda,percentagem_lucro)'),
+    const[movPorAtivo,ativosAll]=await Promise.all([
+      api('movimentos?select=tipo,valor,valor_proprio,ativo_id'),
       api('ativos?select=id,estado,grupo_id,valor_previsto_venda,percentagem_lucro')
     ]);
 
@@ -527,18 +719,12 @@ async function renderDashboard(){
     let investidoCarteira=0,lucroPrevistoTotal=0,balancoTotal=0;
     let emCarteiraCount=0;
 
-
-    movAll.forEach(m=>{
-      const aid=m.ativos?m.ativos.id:null;
-      // Precisamos do ativo_id — buscar separado
-    });
-
-    const movPorAtivo=await api('movimentos?select=tipo,valor,valor_proprio,ativo_id');
-    const meuCustoPorAtivo={};const minhaReceitaPorAtivo={};
+    const custoTotalPorAtivo={};const meuCustoPorAtivo={};const minhaReceitaPorAtivo={};
     movPorAtivo.forEach(m=>{
+      if(!custoTotalPorAtivo[m.ativo_id])custoTotalPorAtivo[m.ativo_id]=0;
       if(!meuCustoPorAtivo[m.ativo_id])meuCustoPorAtivo[m.ativo_id]=0;
       if(!minhaReceitaPorAtivo[m.ativo_id])minhaReceitaPorAtivo[m.ativo_id]=0;
-      if(m.tipo==='custo')meuCustoPorAtivo[m.ativo_id]+=vpOf(m);
+      if(m.tipo==='custo'){custoTotalPorAtivo[m.ativo_id]+=parseFloat(m.valor);meuCustoPorAtivo[m.ativo_id]+=vpOf(m);}
       else minhaReceitaPorAtivo[m.ativo_id]+=vpOf(m);
     });
 
@@ -548,15 +734,13 @@ async function renderDashboard(){
       if(a.estado==='em_carteira'){
         emCarteiraCount++;
         investidoCarteira+=custo;
-        if(a.valor_previsto_venda&&a.percentagem_lucro){
-          const lucBruto=parseFloat(a.valor_previsto_venda)-custo;
-          lucroPrevistoTotal+=lucBruto*(parseFloat(a.percentagem_lucro)/100);
-        }
+        const lucro=lucroPrevisto(a,custoTotalPorAtivo[a.id]||0);
+        if(lucro!==null)lucroPrevistoTotal+=lucro;
       }
     });
 
     document.getElementById('dash-stats').innerHTML=`
-      <div class="stat-card"><div class="stat-label">Em carteira</div><div class="stat-val blue">${emCarteiraCount}</div></div>
+      <div class="stat-card"><div class="stat-label">Ativos em carteira</div><div class="stat-val blue">${emCarteiraCount}</div></div>
       <div class="stat-card"><div class="stat-label">Meu investido</div><div class="stat-val amber">${fmt(investidoCarteira)}</div></div>
       <div class="stat-card"><div class="stat-label">Meu lucro previsto</div><div class="stat-val ${lucroPrevistoTotal>=0?'green':'red'}">${fmt(lucroPrevistoTotal)}</div></div>
       <div class="stat-card"><div class="stat-label">Meu balanço total</div><div class="stat-val ${balancoTotal>=0?'green':'red'}">${fmt(balancoTotal)}</div></div>`;
@@ -573,24 +757,22 @@ async function renderDashboard(){
         gBalanco+=receita-custo;
         if(a.estado==='em_carteira'){
           gInvestido+=custo;
-          if(a.valor_previsto_venda&&a.percentagem_lucro){
-            const lb=parseFloat(a.valor_previsto_venda)-custo;
-            gLucroPrevisto+=lb*(parseFloat(a.percentagem_lucro)/100);
-          }
+          const lucro=lucroPrevisto(a,custoTotalPorAtivo[a.id]||0);
+          if(lucro!==null)gLucroPrevisto+=lucro;
         }
       });
-      html+=`<div class="grupo-card" onclick="openGrupo(${g.id},'${g.nome.replace(/'/g,"\\'")}')">
+      html+=`<div class="grupo-card" onclick="openGrupo(${g.id},'${jsArg(g.nome)}')">
         <div class="grupo-header">
-          <div class="grupo-nome">${g.nome}</div>
+          <div class="grupo-nome">${esc(g.nome)}</div>
           <div style="display:flex;gap:6px;align-items:center;">
             <button class="btn-sm" style="font-size:11px;padding:3px 8px;" onclick="event.stopPropagation();openModalGrupo(${g.id})">editar</button>
-            <span style="font-size:11px;color:var(--text2);">${agCarteira.length}/${ag.length}</span>
           </div>
         </div>
         <div class="grupo-stats">
-          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--amber)">${fmt(gInvestido)}</div><div class="grupo-stat-label">Investido</div></div>
-          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--green)">${fmt(gLucroPrevisto)}</div><div class="grupo-stat-label">Lucro previsto</div></div>
-          <div class="grupo-stat" style="grid-column:span 2;"><div class="grupo-stat-val" style="color:${gBalanco>=0?'var(--green)':'var(--red)'}">${fmt(gBalanco)}</div><div class="grupo-stat-label">Balanço total (todos os ativos)</div></div>
+          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--blue)">${agCarteira.length}</div><div class="grupo-stat-label">Ativos em carteira</div></div>
+          <div class="grupo-stat"><div class="grupo-stat-val" style="color:var(--amber)">${fmt(gInvestido)}</div><div class="grupo-stat-label">Meu investido</div></div>
+          <div class="grupo-stat"><div class="grupo-stat-val" style="color:${gLucroPrevisto>=0?'var(--green)':'var(--red)'}">${fmt(gLucroPrevisto)}</div><div class="grupo-stat-label">Meu lucro previsto</div></div>
+          <div class="grupo-stat"><div class="grupo-stat-val" style="color:${gBalanco>=0?'var(--green)':'var(--red)'}">${fmt(gBalanco)}</div><div class="grupo-stat-label">Meu balanço total</div></div>
         </div></div>`;
     }
     document.getElementById('dash-grupos').innerHTML=html;
@@ -618,23 +800,26 @@ async function renderAtivos(){
     const receita=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+parseFloat(m.valor),0);
     const custoP=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
     const receitaP=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
-    const lucroP=a.valor_previsto_venda&&a.percentagem_lucro?(parseFloat(a.valor_previsto_venda)-custo)*(parseFloat(a.percentagem_lucro)/100):null;
-    return{custo,receita,custoP,receitaP,resultado:receitaP-custoP,lucroP};
+    const lucroP=lucroPrevisto(a,custo);
+    return{custo,receita,custoP,receitaP,resultado:receitaP-custoP,lucroReal:receita-custo,lucroRealP:receitaP-custoP,lucroP};
   }
 
   function ativoHTML(a){
     const c=calcAtivo(a);
-    const previsto=c.lucroP!==null?`<div class="ativo-num"><div class="ativo-num-val" style="color:var(--purple)">${fmt(c.lucroP)}</div><div class="ativo-num-label">Lucro previsto</div></div>`:'';
-    return `<div class="ativo-card" onclick="openAtivo(${a.id},'${a.nome.replace(/'/g,"\\'")}')">
+    return `<div class="ativo-card" onclick="openAtivo(${a.id},'${jsArg(a.nome)}')">
       <div class="ativo-header">
-        <div><div class="ativo-nome">${a.nome}</div>${a.descricao?`<div style="font-size:12px;color:var(--text2);margin-top:2px;">${a.descricao}</div>`:''}</div>
+        <div><div class="ativo-nome">${esc(a.nome)}</div>${a.descricao?`<div style="font-size:12px;color:var(--text2);margin-top:2px;">${esc(a.descricao)}</div>`:''}</div>
         <span class="ativo-estado ${a.estado}">${a.estado==='em_carteira'?'Em carteira':'Vendido'}</span>
       </div>
       <div class="ativo-nums">
-        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--amber)">${fmt(c.custoP)}</div><div class="ativo-num-label">Meu custo</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--purple)">${fmt(numOrNull(a.valor_previsto_venda))}</div><div class="ativo-num-label">Valor previsto venda</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:${(c.lucroP||0)>=0?'var(--green)':'var(--red)'}">${fmt(c.lucroP)}</div><div class="ativo-num-label">Meu lucro previsto</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--green)">${fmt(c.receita)}</div><div class="ativo-num-label">Valor vendido</div></div>
         <div class="ativo-num"><div class="ativo-num-val" style="color:var(--green)">${fmt(c.receitaP)}</div><div class="ativo-num-label">Minha receita</div></div>
-        <div class="ativo-num"><div class="ativo-num-val" style="color:${c.resultado>=0?'var(--green)':'var(--red)'}">${fmt(c.resultado)}</div><div class="ativo-num-label">Resultado</div></div>
-        ${previsto}
+        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--red)">${fmt(c.custo)}</div><div class="ativo-num-label">Total custos</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:var(--amber)">${fmt(c.custoP)}</div><div class="ativo-num-label">Meu custo</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:${c.lucroReal>=0?'var(--green)':'var(--red)'}">${fmt(c.lucroReal)}</div><div class="ativo-num-label">Lucro real do carro</div></div>
+        <div class="ativo-num"><div class="ativo-num-val" style="color:${c.lucroRealP>=0?'var(--green)':'var(--red)'}">${fmt(c.lucroRealP)}</div><div class="ativo-num-label">Meu lucro real</div></div>
       </div></div>`;
   }
 
@@ -679,7 +864,7 @@ function carregarMaisVendidos(){
 }
 
 // ATIVO DETALHE
-async function openAtivo(id,nome){currentAtivoId=id;document.getElementById('ativo-titulo').textContent=nome;goTo('ativo');await renderAtivo();}
+async function openAtivo(id,nome){scrollPositions.ativos=window.scrollY;currentAtivoId=id;document.getElementById('ativo-titulo').textContent=nome;goTo('ativo');window.scrollTo(0,0);await renderAtivo();}
 async function renderAtivo(){
   document.getElementById('ativo-movimentos').innerHTML='<div class="loading">A carregar<span class="dot-anim"></span></div>';
   await loadMovimentos(currentAtivoId);
@@ -689,8 +874,7 @@ async function renderAtivo(){
   const cp=movimentos.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
   const rp=movimentos.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
   const resT=rt-ct,resP=rp-cp;
-  const lucroP=ativo&&ativo.valor_previsto_venda&&ativo.percentagem_lucro
-    ?(parseFloat(ativo.valor_previsto_venda)-ct)*(parseFloat(ativo.percentagem_lucro)/100):null;
+  const lucroP=ativo?lucroPrevisto(ativo,ct):null;
   document.getElementById('ativo-sub').textContent=ativo?(ativo.estado==='em_carteira'?'Em carteira':'Vendido'):'';
   document.getElementById('ativo-resumo').innerHTML=`
     <div class="card" style="margin-bottom:.75rem;">
@@ -714,14 +898,14 @@ async function renderAtivo(){
   document.getElementById('ativo-movimentos').innerHTML=movimentos.map(m=>{
     const vpVal=vpOf(m);const vtVal=parseFloat(m.valor);
     const temP=m.movimento_parceiros&&m.movimento_parceiros.length>0;
-    const pills=temP?m.movimento_parceiros.map(mp=>`<span class="parceiro-pill">${mp.parceiros?mp.parceiros.nome:'?'} ${fmt(mp.valor)}</span>`).join(''):'';
+    const pills=temP?m.movimento_parceiros.map(mp=>`<span class="parceiro-pill">${esc(mp.parceiros?mp.parceiros.nome:'?')} ${fmt(mp.valor)}</span>`).join(''):'';
     const tipoClass=m.tipo==='custo'?'custo':m.tipo==='receita'?'receita':'troca';
     const sinal=m.tipo==='custo'?'−':'+';
     return `<div class="mov-card">
       <div class="mov-top">
         <div class="mov-left">
-          <div class="mov-cat">${m.categorias?m.categorias.nome:'—'}</div>
-          ${m.descricao?`<div class="mov-desc">${m.descricao}</div>`:''}
+          <div class="mov-cat">${m.categorias?esc(m.categorias.nome):'—'}</div>
+          ${m.descricao?`<div class="mov-desc">${esc(m.descricao)}</div>`:''}
           <div class="mov-date">${fmtDate(m.data)}</div>
         </div>
         <div class="mov-right">
@@ -739,17 +923,20 @@ async function renderAtivo(){
 }
 
 // TROCA
-function iniciarTroca(){
+async function iniciarTroca(){
   closeModal('modal-opcoes-ativo');
+  await loadAll();
   const ativo=ativos.find(a=>a.id===currentAtivoId);
   if(!ativo){toast('Ativo não encontrado');return;}
   // Preencher grupos
   const sel=document.getElementById('troca-grupo');
-  sel.innerHTML=grupos.map(g=>`<option value="${g.id}">${g.nome}</option>`).join('');
+  const grupoOrigemId=ativo.grupo_id||currentGrupoId;
+  sel.innerHTML=grupos.map(g=>`<option value="${g.id}" ${g.id===grupoOrigemId?'selected':''}>${esc(g.nome)}</option>`).join('');
+  sel.value=String(grupoOrigemId);
   document.getElementById('troca-nome').value='';
   document.getElementById('troca-desc').value='';
   document.getElementById('troca-previsto').value='';
-  document.getElementById('troca-pct').value=ativo.percentagem_lucro||100;
+  document.getElementById('troca-pct').value=ativo.percentagem_lucro??100;
   document.getElementById('troca-recebido').value='';
   document.getElementById('troca-pago').value='';
   document.getElementById('troca-preview').textContent='';
@@ -757,7 +944,7 @@ function iniciarTroca(){
   const movs=movimentos;
   const ct=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+parseFloat(m.valor),0);
   const rt=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+parseFloat(m.valor),0);
-  document.getElementById('troca-info-box').innerHTML=`<strong>${ativo.nome}</strong><br>Custo acumulado: ${fmt(ct)} · Receita: ${fmt(rt)} · Resultado: ${fmt(rt-ct)}`;
+  document.getElementById('troca-info-box').innerHTML=`<strong>${esc(ativo.nome)}</strong><br>Custo acumulado: ${fmt(ct)} · Receita: ${fmt(rt)} · Resultado: ${fmt(rt-ct)}`;
   openModal('modal-troca');
 }
 
@@ -770,95 +957,103 @@ function calcTrocaPreview(){
   prev.textContent=ajuste>0?`Recebes ${fmt(ajuste)} extra na troca`:`Pagas ${fmt(Math.abs(ajuste))} extra na troca`;
 }
 
+async function getOrCreateCategoria(nome,tipo){
+  let rows=await api('categorias?nome=eq.'+encodeURIComponent(nome)+'&tipo=eq.'+tipo+'&limit=1');
+  if(rows.length)return rows[0].id;
+  const[nova]=await api('categorias','POST',{nome,tipo});
+  categorias.push(nova);
+  return nova.id;
+}
+function partsFromShares(participantes,shares){
+  return participantes.filter(p=>p.key!=='proprio').map(p=>({parceiro_id:p.parceiro_id,valor:round2(shares[p.key]||0)})).filter(p=>p.valor>0.009);
+}
+async function createMovimentoComPartes({ativoId,categoriaId,tipo,valor,shares,data,descricao,participantes}){
+  const total=round2(valor);
+  if(total<=0)return null;
+  const proprio=round2(shares.proprio||0);
+  const parts=partsFromShares(participantes,shares);
+  const somaParts=round2(proprio+parts.reduce((s,p)=>s+p.valor,0));
+  if(Math.abs(somaParts-total)>0.02&&parts.length){
+    parts[parts.length-1].valor=round2(parts[parts.length-1].valor+(total-somaParts));
+  }
+  const[mov]=await api('movimentos','POST',{ativo_id:ativoId,categoria_id:categoriaId,tipo,valor:total,valor_proprio:proprio,data,descricao});
+  for(const p of parts)await api('movimento_parceiros','POST',{movimento_id:mov.id,parceiro_id:p.parceiro_id,valor:p.valor});
+  return mov;
+}
+function remainingCostShares(participantes,extraReceitaShares={}){
+  const shares={};let total=0;
+  participantes.forEach(p=>{
+    const rem=Math.max(0,round2(p.custo-p.receita-(extraReceitaShares[p.key]||0)));
+    shares[p.key]=rem;
+    total+=rem;
+  });
+  return{shares,total:round2(total)};
+}
+
 async function confirmarTroca(){
   const novoGrupoId=parseInt(document.getElementById('troca-grupo').value);
   const novoNome=document.getElementById('troca-nome').value.trim();
   const novoDesc=document.getElementById('troca-desc').value.trim();
-  const novoPrevisto=parseFloat(document.getElementById('troca-previsto').value)||null;
-  const novoPct=parseFloat(document.getElementById('troca-pct').value)||100;
+  const novoPrevisto=numOrNull(document.getElementById('troca-previsto').value);
+  const novoPct=pctOrDefault(document.getElementById('troca-pct').value);
   const recebido=parseFloat(document.getElementById('troca-recebido').value)||0;
   const pago=parseFloat(document.getElementById('troca-pago').value)||0;
+  if(!novoGrupoId){toast('Seleciona o grupo do novo ativo');return;}
   if(!novoNome){toast('Indica o nome do novo ativo');return;}
 
   try{
-    // 1. Calcular resultado do ativo antigo
-    const movs=movimentos;
-    const ct=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+parseFloat(m.valor),0);
-    const rt=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+parseFloat(m.valor),0);
+    await loadMovimentos(currentAtivoId);
+    const ativoAntigo=ativos.find(a=>a.id===currentAtivoId);
+    const ativoParts=await loadAtivoParceiros(currentAtivoId);
+    const participantes=buildParticipantSnapshot(movimentos,ativoAntigo,ativoParts);
+    const data=today();
+    const catTrocaReceitaId=await getOrCreateCategoria('Troca','receita');
+    const catTrocaCustoId=await getOrCreateCategoria('Troca','custo');
 
-    // 2. Calcular parceiros do ativo antigo
-    const partMap={};// pid -> {nome, custo, receita}
-    movs.forEach(m=>{
-      if(m.movimento_parceiros)m.movimento_parceiros.forEach(mp=>{
-        if(!partMap[mp.parceiro_id])partMap[mp.parceiro_id]={nome:mp.parceiros?mp.parceiros.nome:'?',custo:0,receita:0};
-        if(m.tipo==='custo')partMap[mp.parceiro_id].custo+=parseFloat(mp.valor);
-        else partMap[mp.parceiro_id].receita+=parseFloat(mp.valor);
+    let dinheiroRecebidoShares={};
+    if(recebido>0){
+      dinheiroRecebidoShares=distributeByPct(recebido,participantes);
+      await createMovimentoComPartes({
+        ativoId:currentAtivoId,categoriaId:catTrocaReceitaId,tipo:'receita',
+        valor:recebido,shares:dinheiroRecebidoShares,data,
+        descricao:'Dinheiro recebido na troca',participantes
       });
+    }
+
+    const restante=remainingCostShares(participantes,dinheiroRecebidoShares);
+    await createMovimentoComPartes({
+      ativoId:currentAtivoId,categoriaId:catTrocaReceitaId,tipo:'receita',
+      valor:restante.total,shares:restante.shares,data,
+      descricao:'Troca + para transferir custo para o novo ativo',participantes
     });
 
-    // 3. Ajuste de troca (recebido/pago) — dividido proporcionalmente
-    // Calcular o meu custo e receita
-    const meuCusto=movs.filter(m=>m.tipo==='custo').reduce((s,m)=>s+vpOf(m),0);
-    const minhaReceita=movs.filter(m=>m.tipo==='receita').reduce((s,m)=>s+vpOf(m),0);
-    const custoTotalParceiros=Object.values(partMap).reduce((s,p)=>s+p.custo,0);
-    const receitaTotalParceiros=Object.values(partMap).reduce((s,p)=>s+p.receita,0);
+    await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'vendido',motivo_venda:'troca',data_venda:data});
 
-    // Ajuste proporcional ao peso de cada um
-    let ajusteExtra=recebido-pago;// positivo = recebemos, negativo = pagamos
-    // Dividir proporcionalmente pelo total de ativos (simples: igual entre todos os participantes)
-    const numParticipantes=1+Object.keys(partMap).length;
-    const ajustePorParticipante=numParticipantes>0?ajusteExtra/numParticipantes:ajusteExtra;
-
-    // 4. Calcular valor a transferir para novo ativo
-    // resultado final ativo antigo após ajuste = (rt + recebido - pago) - ct
-    const resultadoFinal=(rt+recebido-pago)-ct;
-    const valorNovoAtivo=resultadoFinal<0?Math.abs(resultadoFinal):0;
-
-    // 5. Marcar ativo antigo como vendido
-    await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'vendido',motivo_venda:'troca',data_venda:today()});
-
-    // 6. Criar novo ativo
     const[novoAtivo]=await api('ativos','POST',{
       grupo_id:novoGrupoId,nome:novoNome,descricao:novoDesc||null,
-      estado:'em_carteira',data_aquisicao:today(),
+      estado:'em_carteira',data_aquisicao:data,
       valor_previsto_venda:novoPrevisto,percentagem_lucro:novoPct
     });
+    await saveAtivoParceiros(novoAtivo.id,ativoParts.map(p=>({parceiro_id:p.parceiro_id,percentagem_lucro:p.percentagem_lucro})));
 
-    // 7. Criar movimento de troca no novo ativo (se há valor a transferir)
-    if(valorNovoAtivo>0){
-      // Calcular o meu peso no custo total
-      const totalCusto=ct||1;
-      const meuPeso=meuCusto/totalCusto;
-      const minhaParte=valorNovoAtivo*meuPeso;
+    await createMovimentoComPartes({
+      ativoId:novoAtivo.id,categoriaId:catTrocaCustoId,tipo:'custo',
+      valor:restante.total,shares:restante.shares,data,
+      descricao:`Troca - recebida de ${ativoAntigo?ativoAntigo.nome:'ativo anterior'}`,participantes
+    });
 
-      // Obter/criar categoria troca
-      let catTrocaArr=await api('categorias?nome=eq.Troca');
-      let catTrocaId;
-      if(!catTrocaArr.length){
-        const[nc]=await api('categorias','POST',{nome:'Troca',tipo:'custo'});
-        catTrocaId=nc.id;
-      } else {catTrocaId=catTrocaArr[0].id;}
-
-      const[novoMov]=await api('movimentos','POST',{
-        ativo_id:novoAtivo.id,categoria_id:catTrocaId,tipo:'custo',
-        valor:valorNovoAtivo,valor_proprio:minhaParte,
-        data:today(),descricao:`Transferido da troca de ${ativos.find(a=>a.id===currentAtivoId)?.nome||'ativo anterior'}`
+    if(pago>0){
+      const pagoShares=distributeByPct(pago,participantes);
+      await createMovimentoComPartes({
+        ativoId:novoAtivo.id,categoriaId:catTrocaCustoId,tipo:'custo',
+        valor:pago,shares:pagoShares,data,
+        descricao:'Dinheiro pago na troca',participantes
       });
-
-      // Criar participações para parceiros
-      for(const pid of Object.keys(partMap)){
-        const p=partMap[pid];
-        const pesoParceiro=(p.custo||0)/totalCusto;
-        const valorParceiro=valorNovoAtivo*pesoParceiro;
-        if(valorParceiro>0.01){
-          await api('movimento_parceiros','POST',{movimento_id:novoMov.id,parceiro_id:parseInt(pid),valor:parseFloat(valorParceiro.toFixed(2))});
-        }
-      }
     }
 
     closeModal('modal-troca');
     toast('Troca registada com sucesso!');
-    // Recarregar e navegar para novo ativo
+    currentGrupoId=novoGrupoId;
     await loadAtivos(currentGrupoId);
     currentAtivoId=novoAtivo.id;
     document.getElementById('ativo-titulo').textContent=novoNome;
@@ -871,116 +1066,119 @@ async function confirmarTroca(){
 async function renderAnalise(){
   document.getElementById('analise-content').innerHTML='<div class="loading">A calcular<span class="dot-anim"></span></div>';
   await loadAll();
-  const movAll=await api('movimentos?select=id,tipo,valor,valor_proprio,data,ativo_id,movimento_parceiros(parceiro_id,valor,parceiros(nome)),ativos(grupo_id)');
-  const ativosAll=await api('ativos?select=id,estado,grupo_id');
-  const estrutura={};
-  for(const m of movAll){
-    const ano=m.data?m.data.slice(0,4):'N/A';const gid=m.ativos?m.ativos.grupo_id:null;if(!gid)continue;
-    if(!estrutura[ano])estrutura[ano]={};
-    if(!estrutura[ano][gid])estrutura[ano][gid]={custo:0,receita:0,custoP:0,receitaP:0,parceiros:{}};
-    const blk=estrutura[ano][gid];
-    const vt=parseFloat(m.valor);const vp=vpOf(m);
-    if(m.tipo==='custo'){blk.custo+=vt;blk.custoP+=vp;}else{blk.receita+=vt;blk.receitaP+=vp;}
-    if(m.movimento_parceiros){
-      for(const mp of m.movimento_parceiros){
-        const pid=mp.parceiro_id;const pnome=mp.parceiros?mp.parceiros.nome:'?';
-        if(!blk.parceiros[pid])blk.parceiros[pid]={nome:pnome,custo:0,receita:0};
-        if(m.tipo==='custo')blk.parceiros[pid].custo+=parseFloat(mp.valor);else blk.parceiros[pid].receita+=parseFloat(mp.valor);
-      }
-    }
-  }
-  const anos=Object.keys(estrutura).sort().reverse();
-  let html='';
-  if(!anos.length){html='<div class="empty"><div class="empty-icon">📊</div><div class="empty-text">Sem dados ainda.</div></div>';document.getElementById('analise-content').innerHTML=html;return;}
+  const movAll=await api('movimentos?select=tipo,valor,valor_proprio,data,ativos(grupo_id)');
+  const rows=movAll
+    .filter(m=>m.data&&m.ativos&&m.ativos.grupo_id)
+    .map(m=>({gid:m.ativos.grupo_id,date:m.data,ts:new Date(m.data+'T00:00:00').getTime(),delta:(m.tipo==='receita'?1:-1)*vpOf(m)}))
+    .filter(m=>Number.isFinite(m.ts))
+    .sort((a,b)=>a.ts-b.ts);
 
-  function blocoLinhas(b){
-    const resT=b.receita-b.custo;const resP=b.receitaP-b.custoP;
-    let h='';
-    h+=`<div class="analise-row"><span class="analise-label">Custo total</span><span class="analise-val" style="color:var(--red)">${fmt(b.custo)}</span></div>`;
-    h+=`<div class="analise-row"><span class="analise-label">Meu custo</span><span class="analise-val" style="color:var(--amber)">${fmt(b.custoP)}</span></div>`;
-    for(const pid of Object.keys(b.parceiros)){const p=b.parceiros[pid];if(p.custo>0)h+=`<div class="analise-row"><span class="analise-label" style="padding-left:10px;">↳ ${p.nome}</span><span class="analise-val" style="color:var(--amber)">${fmt(p.custo)}</span></div>`;}
-    h+=`<div class="analise-row"><span class="analise-label">Receita total</span><span class="analise-val" style="color:var(--green)">${fmt(b.receita)}</span></div>`;
-    h+=`<div class="analise-row"><span class="analise-label">Minha receita</span><span class="analise-val" style="color:var(--green)">${fmt(b.receitaP)}</span></div>`;
-    for(const pid of Object.keys(b.parceiros)){const p=b.parceiros[pid];if(p.receita>0)h+=`<div class="analise-row"><span class="analise-label" style="padding-left:10px;">↳ ${p.nome}</span><span class="analise-val" style="color:var(--green)">${fmt(p.receita)}</span></div>`;}
-    h+=`<div class="analise-row"><span class="analise-label">Resultado total</span><span class="analise-val" style="color:${resT>=0?'var(--green)':'var(--red)'}">${fmt(resT)}</span></div>`;
-    h+=`<div class="analise-row"><span class="analise-label">Meu resultado</span><span class="analise-val" style="color:${resP>=0?'var(--green)':'var(--red)'}">${fmt(resP)}</span></div>`;
-    return h;
+  const buttons=`<div class="period-toggle">
+    <button class="period-btn ${analisePeriodo==='sempre'?'active':''}" onclick="setAnalisePeriodo('sempre')">Sempre</button>
+    <button class="period-btn ${analisePeriodo==='2anos'?'active':''}" onclick="setAnalisePeriodo('2anos')">2 anos</button>
+    <button class="period-btn ${analisePeriodo==='1ano'?'active':''}" onclick="setAnalisePeriodo('1ano')">1 ano</button>
+  </div>`;
+
+  if(!rows.length){
+    document.getElementById('analise-content').innerHTML=buttons+'<div class="empty"><div class="empty-icon">📊</div><div class="empty-text">Sem movimentos ainda.</div></div>';
+    return;
   }
 
-  for(const ano of anos){
-    const gids=Object.keys(estrutura[ano]);
-    const totAno={custo:0,receita:0,custoP:0,receitaP:0,parceiros:{}};
-    for(const gid of gids){
-      const b=estrutura[ano][gid];totAno.custo+=b.custo;totAno.receita+=b.receita;totAno.custoP+=b.custoP;totAno.receitaP+=b.receitaP;
-      for(const pid of Object.keys(b.parceiros)){if(!totAno.parceiros[pid])totAno.parceiros[pid]={nome:b.parceiros[pid].nome,custo:0,receita:0};totAno.parceiros[pid].custo+=b.parceiros[pid].custo;totAno.parceiros[pid].receita+=b.parceiros[pid].receita;}
-    }
-    const resAnoP=totAno.receitaP-totAno.custoP;
-    html+=`<div class="analise-ano"><div class="analise-ano-header"><span class="analise-ano-title">${ano}</span><span class="resultado-badge ${resAnoP>=0?'positivo':'negativo'}">${resAnoP>=0?'+':''}${fmt(resAnoP)}</span></div>`;
-    for(const gid of gids){const g=grupos.find(g=>g.id==gid);const b=estrutura[ano][gid];html+=`<div class="analise-grupo-block"><div class="analise-grupo-title">${g?g.nome:'Grupo'}</div>${blocoLinhas(b)}</div>`;}
-    if(gids.length>1){html+=`<div class="analise-totais-block"><div class="analise-totais-title">Totais ${ano}</div>${blocoLinhas(totAno)}</div>`;}
-    html+=`</div>`;
+  const nowTs=new Date(today()+'T00:00:00').getTime();
+  let startTs=rows[0].ts;
+  if(analisePeriodo==='1ano'){const d=new Date();d.setFullYear(d.getFullYear()-1);startTs=new Date(d.toISOString().slice(0,10)+'T00:00:00').getTime();}
+  if(analisePeriodo==='2anos'){const d=new Date();d.setFullYear(d.getFullYear()-2);startTs=new Date(d.toISOString().slice(0,10)+'T00:00:00').getTime();}
+  const endTs=Math.max(nowTs,rows[rows.length-1].ts,startTs+86400000);
+  const inRange=rows.filter(r=>r.ts>=startTs&&r.ts<=endTs);
+
+  if(!inRange.length){
+    document.getElementById('analise-content').innerHTML=buttons+'<div class="empty"><div class="empty-icon">📉</div><div class="empty-text">Sem movimentos neste período.</div></div>';
+    return;
   }
 
-  // GRÁFICO
-  const custosPorAtivo2={};
-  const movAll2=await api('movimentos?select=tipo,valor,ativo_id');
-  movAll2.forEach(m=>{if(!custosPorAtivo2[m.ativo_id])custosPorAtivo2[m.ativo_id]=0;if(m.tipo==='custo')custosPorAtivo2[m.ativo_id]+=parseFloat(m.valor);});
-  const pieData=[];const pieColors=['#4ade80','#60a5fa','#fbbf24','#f87171','#a78bfa','#34d399','#fb923c','#e879f9'];
-  for(const g of grupos){
-    let cg=0;ativosAll.filter(a=>a.grupo_id===g.id).forEach(a=>{cg+=custosPorAtivo2[a.id]||0;});
-    if(cg>0)pieData.push({nome:g.nome,valor:cg});
+  const colors=['#4ade80','#60a5fa','#fbbf24','#f87171','#a78bfa','#34d399','#fb923c','#e879f9'];
+  const series=[];
+  grupos.forEach((g,idx)=>{
+    const movs=inRange.filter(r=>r.gid===g.id);
+    if(!movs.length)return;
+    let acc=0;
+    const pts=[{ts:startTs,v:0}];
+    movs.forEach(m=>{acc=round2(acc+m.delta);pts.push({ts:m.ts,v:acc});});
+    pts.push({ts:endTs,v:acc});
+    series.push({id:g.id,nome:g.nome,color:colors[idx%colors.length],pts,total:acc});
+  });
+
+  if(!series.length){
+    document.getElementById('analise-content').innerHTML=buttons+'<div class="empty"><div class="empty-icon">📉</div><div class="empty-text">Sem dados para mostrar.</div></div>';
+    return;
   }
-  if(pieData.length>0){
-    const size=200;const cx=size/2;const cy=size/2;const r=80;const ri=45;
-    let svgPaths='';let startAngle=-Math.PI/2;const total=pieData.reduce((s,d)=>s+d.valor,0);
-    pieData.forEach((d,i)=>{
-      const angle=(d.valor/total)*2*Math.PI;const endAngle=startAngle+angle;
-      const x1=cx+r*Math.cos(startAngle);const y1=cy+r*Math.sin(startAngle);const x2=cx+r*Math.cos(endAngle);const y2=cy+r*Math.sin(endAngle);
-      const xi1=cx+ri*Math.cos(startAngle);const yi1=cy+ri*Math.sin(startAngle);const xi2=cx+ri*Math.cos(endAngle);const yi2=cy+ri*Math.sin(endAngle);
-      const largeArc=angle>Math.PI?1:0;const color=pieColors[i%pieColors.length];
-      svgPaths+=`<path d="M${xi1},${yi1} L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} L${xi2},${yi2} A${ri},${ri} 0 ${largeArc},0 ${xi1},${yi1}" fill="${color}" stroke="var(--bg)" stroke-width="2"/>`;
-      startAngle=endAngle;
-    });
-    let legendHtml='';
-    pieData.forEach((d,i)=>{const pct=((d.valor/total)*100).toFixed(1);legendHtml+=`<div class="legend-item"><div class="legend-dot" style="background:${pieColors[i%pieColors.length]};"></div><span class="legend-label">${d.nome}</span><span class="legend-val">${fmt(d.valor)}</span><span class="legend-pct">${pct}%</span></div>`;});
-    html+=`<div class="chart-container"><div class="chart-title">Investimento total por grupo</div><div class="pie-wrap">
-      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${svgPaths}
-        <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="10" fill="var(--text2)" font-family="DM Sans,sans-serif">Total</text>
-        <text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" font-family="DM Mono,monospace">${fmt(total)}</text>
-      </svg>
-      <div class="pie-legend">${legendHtml}</div></div></div>`;
-  }
-  document.getElementById('analise-content').innerHTML=html;
+
+  const W=340,H=240,L=54,R=14,T=18,B=34;
+  const vals=series.flatMap(s=>s.pts.map(p=>p.v)).concat([0]);
+  let minV=Math.min(...vals),maxV=Math.max(...vals);
+  if(minV===maxV){minV-=100;maxV+=100;}
+  const pad=(maxV-minV)*0.12;minV-=pad;maxV+=pad;
+  const x=ts=>L+((ts-startTs)/(endTs-startTs))*(W-L-R);
+  const y=v=>T+(1-(v-minV)/(maxV-minV))*(H-T-B);
+  const fmtShort=d=>{const dt=new Date(d);return dt.toLocaleDateString('pt-PT',{month:'short',year:'2-digit'});};
+  const grid=[0,1,2,3].map(i=>{
+    const gy=T+i*((H-T-B)/3);
+    const val=maxV-i*((maxV-minV)/3);
+    return `<line class="chart-grid" x1="${L}" y1="${gy}" x2="${W-R}" y2="${gy}"/><text class="axis-label" x="4" y="${gy+4}">${fmt(val).replace(' €','')}</text>`;
+  }).join('');
+  const paths=series.map(s=>{
+    const d=s.pts.map((p,i)=>`${i?'L':'M'}${x(p.ts).toFixed(1)},${y(p.v).toFixed(1)}`).join(' ');
+    const last=s.pts[s.pts.length-1];
+    return `<path class="chart-line" d="${d}" stroke="${s.color}"/><circle class="chart-point" cx="${x(last.ts).toFixed(1)}" cy="${y(last.v).toFixed(1)}" r="4" fill="${s.color}"/>`;
+  }).join('');
+  const legend=series.map(s=>`<div class="legend-item"><div class="legend-dot" style="background:${s.color}"></div><span class="legend-label">${esc(s.nome)}</span><span class="legend-val" style="color:${s.total>=0?'var(--green)':'var(--red)'}">${fmt(s.total)}</span></div>`).join('');
+
+  document.getElementById('analise-content').innerHTML=buttons+`
+    <div class="chart-container">
+      <div class="chart-title">Crescimento do meu dinheiro</div>
+      <div class="line-chart-wrap">
+        <svg class="line-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Crescimento por grupo">
+          ${grid}
+          <line class="chart-axis" x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}"/>
+          <line class="chart-axis" x1="${L}" y1="${T}" x2="${L}" y2="${H-B}"/>
+          ${paths}
+          <text class="axis-label" x="${L}" y="${H-9}">${fmtShort(startTs)}</text>
+          <text class="axis-label" x="${W-R}" y="${H-9}" text-anchor="end">${fmtShort(endTs)}</text>
+        </svg>
+      </div>
+      <div class="pie-legend">${legend}</div>
+    </div>`;
 }
+function setAnalisePeriodo(periodo){analisePeriodo=periodo;renderAnalise();}
 
 // CONFIG
 async function renderConfig(){
   await loadAll();
   document.getElementById('config-grupos').innerHTML=grupos.length?grupos.map(g=>`
     <div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:14px;">${g.nome}</span>
+      <span style="font-size:14px;">${esc(g.nome)}</span>
       <button class="btn-sm" onclick="openModalGrupo(${g.id})">editar</button>
     </div>`).join(''):'<div style="color:var(--text2);font-size:13px;margin-bottom:.5rem;">Nenhum grupo</div>';
   document.getElementById('config-parceiros').innerHTML=parceiros.length?parceiros.map(p=>`
     <div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:14px;">${p.nome}</span>
+      <span style="font-size:14px;">${esc(p.nome)}</span>
       <button class="btn-sm" onclick="openModalParceiro(${p.id})">editar</button>
     </div>`).join(''):'<div style="color:var(--text2);font-size:13px;margin-bottom:.5rem;">Nenhum parceiro</div>';
-  document.getElementById('config-categorias').innerHTML=categorias.map(c=>`
+  document.getElementById('config-categorias').innerHTML=categorias.length?categorias.map(c=>`
     <div class="card-sm" style="display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:14px;">${c.nome}</span>
+      <span style="font-size:14px;">${esc(c.nome)}</span>
       <div style="display:flex;align-items:center;gap:6px;">
         <span style="font-size:11px;padding:3px 8px;border-radius:20px;background:${c.tipo==='custo'?'var(--red-bg)':'var(--green-bg)'};color:${c.tipo==='custo'?'var(--red)':'var(--green)'};">${c.tipo}</span>
         <button class="btn-sm" onclick="openModalCategoria(${c.id})">editar</button>
       </div>
-    </div>`).join('');
+    </div>`).join(''):'<div style="color:var(--text2);font-size:13px;margin-bottom:.5rem;">Nenhuma categoria</div>';
 }
 
 // GRUPO CRUD
 function openModalGrupo(id){
   editingGrupoId=id;
-  if(id){const g=grupos.find(g=>g.id===id);document.getElementById('modal-grupo-title').textContent='Editar Grupo';document.getElementById('grupo-nome').value=g.nome;document.getElementById('grupo-desc').value=g.descricao||'';}
-  else{document.getElementById('modal-grupo-title').textContent='Novo Grupo';document.getElementById('grupo-nome').value='';document.getElementById('grupo-desc').value='';}
+  if(id){const g=grupos.find(g=>g.id===id);document.getElementById('modal-grupo-title').textContent='Editar Grupo';document.getElementById('grupo-nome').value=g.nome;document.getElementById('grupo-desc').value=g.descricao||'';document.getElementById('btn-del-grupo').style.display='block';}
+  else{document.getElementById('modal-grupo-title').textContent='Novo Grupo';document.getElementById('grupo-nome').value='';document.getElementById('grupo-desc').value='';document.getElementById('btn-del-grupo').style.display='none';}
   openModal('modal-grupo');
 }
 async function saveGrupo(){
@@ -989,6 +1187,29 @@ async function saveGrupo(){
     if(editingGrupoId)await api('grupos?id=eq.'+editingGrupoId,'PATCH',{nome,descricao:document.getElementById('grupo-desc').value.trim()});
     else await api('grupos','POST',{nome,descricao:document.getElementById('grupo-desc').value.trim()});
     closeModal('modal-grupo');toast(editingGrupoId?'Grupo atualizado!':'Grupo criado!');await loadAll();renderConfig();renderDashboard();
+  }catch(e){toast('Erro: '+e.message);}
+}
+async function deleteAtivoCascade(ativoId){
+  const movIds=await api('movimentos?ativo_id=eq.'+ativoId+'&select=id');
+  for(const m of movIds)await api('movimento_parceiros?movimento_id=eq.'+m.id,'DELETE');
+  await api('ativo_parceiros?ativo_id=eq.'+ativoId,'DELETE');
+  await api('movimentos?ativo_id=eq.'+ativoId,'DELETE');
+  await api('ativos?id=eq.'+ativoId,'DELETE');
+}
+async function deleteGrupo(){
+  if(!editingGrupoId)return;
+  const g=grupos.find(g=>g.id===editingGrupoId);
+  if(!confirm(`Eliminar o grupo "${g?g.nome:'selecionado'}" e todos os ativos/movimentos associados?`))return;
+  try{
+    const ag=await api('ativos?grupo_id=eq.'+editingGrupoId+'&select=id');
+    for(const a of ag)await deleteAtivoCascade(a.id);
+    await api('grupos?id=eq.'+editingGrupoId,'DELETE');
+    closeModal('modal-grupo');
+    toast('Grupo eliminado');
+    currentGrupoId=null;currentAtivoId=null;
+    await loadAll();
+    renderConfig();
+    navigate('dashboard',document.querySelector('[data-nav="dashboard"]'));
   }catch(e){toast('Erro: '+e.message);}
 }
 
@@ -1017,35 +1238,43 @@ async function deleteParceiro(){
 }
 
 // ATIVO CRUD
-function openModalNovoAtivo(){
+async function openModalNovoAtivo(){
+  await loadAll();
   editingAtivoId=null;
+  ativoParceiros=[];
   document.getElementById('modal-ativo-title').textContent='Novo Ativo';
   document.getElementById('ativo-nome').value='';document.getElementById('ativo-desc').value='';
   document.getElementById('ativo-data').value=today();document.getElementById('ativo-estado').value='em_carteira';
   document.getElementById('ativo-data-venda-group').style.display='none';document.getElementById('ativo-data-venda').value='';
   document.getElementById('ativo-previsto').value='';document.getElementById('ativo-pct-lucro').value='100';
+  renderAtivoParceirosEditor();
   openModal('modal-ativo');
 }
-function editAtivo(){
+async function editAtivo(){
   closeModal('modal-opcoes-ativo');
+  await loadAll();
   const a=ativos.find(a=>a.id===currentAtivoId);if(!a)return;
   editingAtivoId=a.id;
+  ativoParceiros=await loadAtivoParceiros(a.id);
   document.getElementById('modal-ativo-title').textContent='Editar Ativo';
   document.getElementById('ativo-nome').value=a.nome;document.getElementById('ativo-desc').value=a.descricao||'';
   document.getElementById('ativo-data').value=a.data_aquisicao||'';document.getElementById('ativo-estado').value=a.estado;
   document.getElementById('ativo-data-venda-group').style.display=a.estado==='vendido'?'block':'none';
   document.getElementById('ativo-data-venda').value=a.data_venda||'';
   document.getElementById('ativo-previsto').value=a.valor_previsto_venda||'';
-  document.getElementById('ativo-pct-lucro').value=a.percentagem_lucro||100;
+  document.getElementById('ativo-pct-lucro').value=a.percentagem_lucro??100;
+  renderAtivoParceirosEditor();
   openModal('modal-ativo');
 }
 async function saveAtivo(){
   const nome=document.getElementById('ativo-nome').value.trim();if(!nome){toast('Indica o nome');return;}
   const estado=document.getElementById('ativo-estado').value;
-  const body={nome,descricao:document.getElementById('ativo-desc').value.trim()||null,data_aquisicao:document.getElementById('ativo-data').value||null,estado,data_venda:estado==='vendido'?(document.getElementById('ativo-data-venda').value||null):null,valor_previsto_venda:parseFloat(document.getElementById('ativo-previsto').value)||null,percentagem_lucro:parseFloat(document.getElementById('ativo-pct-lucro').value)||100};
+  const body={nome,descricao:document.getElementById('ativo-desc').value.trim()||null,data_aquisicao:document.getElementById('ativo-data').value||null,estado,data_venda:estado==='vendido'?(document.getElementById('ativo-data-venda').value||null):null,valor_previsto_venda:numOrNull(document.getElementById('ativo-previsto').value),percentagem_lucro:pctOrDefault(document.getElementById('ativo-pct-lucro').value)};
+  const totalPct=round2((body.percentagem_lucro||0)+ativoParceiros.reduce((s,p)=>s+(parseFloat(p.percentagem_lucro)||0),0));
+  if(ativoParceiros.length&&Math.abs(totalPct-100)>0.01){toast('As percentagens de lucro devem somar 100%');return;}
   try{
-    if(editingAtivoId){await api('ativos?id=eq.'+editingAtivoId,'PATCH',body);closeModal('modal-ativo');toast('Ativo atualizado!');await loadAtivos(currentGrupoId);await renderAtivo();}
-    else{await api('ativos','POST',{...body,grupo_id:currentGrupoId});closeModal('modal-ativo');toast('Ativo criado!');await renderAtivos();}
+    if(editingAtivoId){await api('ativos?id=eq.'+editingAtivoId,'PATCH',body);await saveAtivoParceiros(editingAtivoId,ativoParceiros);closeModal('modal-ativo');toast('Ativo atualizado!');await loadAtivos(currentGrupoId);await renderAtivo();}
+    else{const[novo]=await api('ativos','POST',{...body,grupo_id:currentGrupoId});await saveAtivoParceiros(novo.id,ativoParceiros);closeModal('modal-ativo');toast('Ativo criado!');await renderAtivos();}
   }catch(e){toast('Erro: '+e.message);}
 }
 async function marcarVendido(){closeModal('modal-opcoes-ativo');try{await api('ativos?id=eq.'+currentAtivoId,'PATCH',{estado:'vendido',motivo_venda:'venda',data_venda:today()});toast('Marcado como vendido');await loadAtivos(currentGrupoId);await renderAtivo();}catch(e){toast('Erro: '+e.message);}}
@@ -1054,11 +1283,8 @@ async function eliminarAtivo(){
   if(!confirm('Eliminar este ativo e todos os seus movimentos?'))return;
   closeModal('modal-opcoes-ativo');
   try{
-    const movIds=await api('movimentos?ativo_id=eq.'+currentAtivoId+'&select=id');
-    for(const m of movIds)await api('movimento_parceiros?movimento_id=eq.'+m.id,'DELETE');
-    await api('movimentos?ativo_id=eq.'+currentAtivoId,'DELETE');
-    await api('ativos?id=eq.'+currentAtivoId,'DELETE');
-    toast('Ativo eliminado');goBack();await renderAtivos();
+    await deleteAtivoCascade(currentAtivoId);
+    toast('Ativo eliminado');await goBack();
   }catch(e){toast('Erro: '+e.message);}
 }
 
@@ -1073,7 +1299,7 @@ function populateCategorias(tipo,selectedId){
   const sel=document.getElementById('mov-categoria');sel.innerHTML='';
   categorias.filter(c=>c.tipo===tipo).forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.nome;if(selectedId&&c.id===selectedId)o.selected=true;sel.appendChild(o);});
 }
-function openModalMovimento(tipo,movId){
+async function openModalMovimento(tipo,movId){
   editingMovId=movId;movParceiros=[];
   if(movId){
     const m=movimentos.find(m=>m.id===movId);if(!m)return;
@@ -1085,6 +1311,7 @@ function openModalMovimento(tipo,movId){
   } else {
     movTipo=tipo;document.getElementById('modal-mov-title').textContent=tipo==='custo'?'Registar Custo':'Registar Receita';
     setTipo(tipo);document.getElementById('mov-valor').value='';document.getElementById('mov-proprio').value='';document.getElementById('mov-data').value=today();document.getElementById('mov-desc').value='';
+    ensureMovParceirosFromAtivo(await loadAtivoParceiros(currentAtivoId));
   }
   renderParticipacoes();document.getElementById('diff-bar').style.display='none';updateDiff();openModal('modal-movimento');
 }
@@ -1159,7 +1386,7 @@ async function deleteCategoria(){
   try{await api('categorias?id=eq.'+editingCatId,'DELETE');closeModal('modal-categoria');toast('Categoria eliminada');await loadAll();renderConfig();}catch(e){toast('Erro: '+e.message);}
 }
 
-tryAutoLogin();
+initSecurity();
 </script>
 </body>
 </html>
