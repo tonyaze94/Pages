@@ -1323,7 +1323,7 @@ async function saveMovimento(){
   if(isNaN(proprio)||proprio<0){toast('Indica a tua parte');return;}
   if(!catId){toast('Seleciona uma categoria');return;}if(!data){toast('Indica a data');return;}
   let soma=proprio;const partsData=[];
-  for(const p of movParceiros){const inp=document.getElementById('pinp-'+p.parceiro_id);const v=parseFloat(inp?inp.value:0)||0;if(v<=0){toast('Indica o valor de '+p.nome);return;}soma+=v;partsData.push({parceiro_id:p.parceiro_id,valor:v});}
+  for(const p of movParceiros){const inp=document.getElementById('pinp-'+p.parceiro_id);const v=parseFloat(inp?inp.value:0)||0;if(v<0){toast('O valor de '+p.nome+' não pode ser negativo');return;}soma+=v;if(v>0)partsData.push({parceiro_id:p.parceiro_id,valor:v});}
   if(Math.abs(soma-valor)>0.01){toast('A soma não coincide com o total');return;}
   try{
     if(editingMovId){
